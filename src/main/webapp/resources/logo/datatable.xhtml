@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="showBackward" />
+	<composite:attribute name="showForward" />
+
+	<composite:attribute name="actionBackward"
+		method-signature="java.lang.String action()" />
+		
+	<composite:attribute name="actionForward"
+		method-signature="java.lang.String action()" />
+		
+	<composite:attribute name="actionFastForward"
+		method-signature="java.lang.String action()" />
+
+	<composite:attribute name="value" type="java.util.List" />
+	<composite:attribute name="var" />
+
+	<composite:attribute name="keyWord" />
+	<composite:attribute name="actionSearch"
+		method-signature="java.lang.String action()" />
+	<composite:attribute name="actionReload"
+		method-signature="java.lang.String action()" />
+
+</composite:interface>
+
+<composite:implementation>
+	<h:form id="frm">
+		<p:dataTable value="#{cc.attrs.value}" var="#{cc.attrs.var}">
+			<f:facet name="header">
+				<p:outputPanel style="text-align: left;">
+					<p:commandLink disabled="#{cc.attrs.showBackward}"
+						action="#{cc.attrs.actionBackward}" >
+						<i class="fa fa-chevron-left" />
+					</p:commandLink>
+				&#160;
+				<p:commandLink disabled="#{cc.attrs.showForward}"
+						action="#{cc.attrs.actionForward}" >
+						<i class="fa fa-chevron-right" />
+					</p:commandLink>
+				&#160;
+				<p:commandLink disabled="#{cc.attrs.showFastForward}"
+						action="#{cc.attrs.showForward}" >
+						<i class="fa fa-fast-forward" />
+					</p:commandLink>
+				</p:outputPanel>
+				<p:outputPanel style="text-align: right;">
+					<h:outputText value="Buscar: " />
+					<p:inputText id="globalFilter" style="width:150px"
+						placeholder="Ingres su busqueda" value="#{cc.attrs.keyWord}" />
+					<p:commandButton icon="fa fa-search" style="padding-top:-15px;"
+						action="#{cc.attrs.actionSearch}" />
+					<p:commandButton icon="fa fa-refresh"
+						action="#{cc.attrs.actionReload}" />
+				</p:outputPanel>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</composite:implementation>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.PgStatStatements" table="pg_stat_statements" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="com.nuck.modelo.PgStatStatementsId">
+            <key-property name="userid" type="java.lang.Long">
+                <column name="userid" />
+            </key-property>
+            <key-property name="dbid" type="java.lang.Long">
+                <column name="dbid" />
+            </key-property>
+            <key-property name="queryid" type="java.lang.Long">
+                <column name="queryid" />
+            </key-property>
+            <key-property name="query" type="java.lang.String">
+                <column name="query" />
+            </key-property>
+            <key-property name="calls" type="java.lang.Long">
+                <column name="calls" />
+            </key-property>
+            <key-property name="totalTime" type="java.lang.Double">
+                <column name="total_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="minTime" type="java.lang.Double">
+                <column name="min_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="maxTime" type="java.lang.Double">
+                <column name="max_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="meanTime" type="java.lang.Double">
+                <column name="mean_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="stddevTime" type="java.lang.Double">
+                <column name="stddev_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="rows" type="java.lang.Long">
+                <column name="rows" />
+            </key-property>
+            <key-property name="sharedBlksHit" type="java.lang.Long">
+                <column name="shared_blks_hit" />
+            </key-property>
+            <key-property name="sharedBlksRead" type="java.lang.Long">
+                <column name="shared_blks_read" />
+            </key-property>
+            <key-property name="sharedBlksDirtied" type="java.lang.Long">
+                <column name="shared_blks_dirtied" />
+            </key-property>
+            <key-property name="sharedBlksWritten" type="java.lang.Long">
+                <column name="shared_blks_written" />
+            </key-property>
+            <key-property name="localBlksHit" type="java.lang.Long">
+                <column name="local_blks_hit" />
+            </key-property>
+            <key-property name="localBlksRead" type="java.lang.Long">
+                <column name="local_blks_read" />
+            </key-property>
+            <key-property name="localBlksDirtied" type="java.lang.Long">
+                <column name="local_blks_dirtied" />
+            </key-property>
+            <key-property name="localBlksWritten" type="java.lang.Long">
+                <column name="local_blks_written" />
+            </key-property>
+            <key-property name="tempBlksRead" type="java.lang.Long">
+                <column name="temp_blks_read" />
+            </key-property>
+            <key-property name="tempBlksWritten" type="java.lang.Long">
+                <column name="temp_blks_written" />
+            </key-property>
+            <key-property name="blkReadTime" type="java.lang.Double">
+                <column name="blk_read_time" precision="17" scale="17" />
+            </key-property>
+            <key-property name="blkWriteTime" type="java.lang.Double">
+                <column name="blk_write_time" precision="17" scale="17" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

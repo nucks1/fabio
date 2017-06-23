@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableMembresia" header="MembresiaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{membresiaView.data}" var="membresia"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{membresia.membresiaId}" sortBy="#{membresia.membresiaId}" >
+										 <f:facet name="header">
+										<h:outputText value="membresiaId"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{membresia.membresiaDerecha}" sortBy="#{membresia.membresiaDerecha}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaDerecha"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaDerecha}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.membresiaFecha}" sortBy="#{membresia.membresiaFecha}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaFecha"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaFecha}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.membresiaIzquierda}" sortBy="#{membresia.membresiaIzquierda}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaIzquierda"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaIzquierda}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.membresiaNivel}" sortBy="#{membresia.membresiaNivel}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaNivel"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaNivel}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.membresiaPorcentajeDescuento}" sortBy="#{membresia.membresiaPorcentajeDescuento}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaPorcentajeDescuento"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaPorcentajeDescuento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.membresiaPuntos}" sortBy="#{membresia.membresiaPuntos}" >
+										 <f:facet name="header">
+										<h:outputText value="MembresiaPuntos"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.membresiaPuntos}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.consumoId_Consumo}" sortBy="#{membresia.consumoId_Consumo}" >
+										 <f:facet name="header">
+										<h:outputText value="ConsumoId_Consumo"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.consumoId_Consumo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{membresia.miembroId_Miembro}" sortBy="#{membresia.miembroId_Miembro}" >
+										 <f:facet name="header">
+										<h:outputText value="MiembroId_Miembro"/>
+										</f:facet>
+										 <h:outputText value="#{membresia.miembroId_Miembro}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogMembresia"
+										actionListener="#{membresiaView.action_edit}">
+										<f:attribute name="selectedMembresia" value="#{membresia}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{membresiaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedMembresia" value="#{membresia}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{membresiaView.action_new()}" update=":dialogMembresia" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogMembresia" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{membresiaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelMembresia" header="Membresia">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgMembresiaId" value="MembresiaId"/>
+									 <p:inputText id="txtMembresiaId" binding="#{membresiaView.txtMembresiaId}">
+									 <p:ajax update=":dialogMembresia" listener="#{membresiaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgMembresiaDerecha" value=" MembresiaDerecha"/>
+									<p:inputText id="txtMembresiaDerecha" disabled="true" binding="#{membresiaView.txtMembresiaDerecha}"/>
+																		<h:outputText id="msgMembresiaIzquierda" value=" MembresiaIzquierda"/>
+									<p:inputText id="txtMembresiaIzquierda" disabled="true" binding="#{membresiaView.txtMembresiaIzquierda}"/>
+																		<h:outputText id="msgMembresiaNivel" value=" MembresiaNivel"/>
+									<p:inputText id="txtMembresiaNivel" disabled="true" binding="#{membresiaView.txtMembresiaNivel}"/>
+																		<h:outputText id="msgMembresiaPorcentajeDescuento" value=" MembresiaPorcentajeDescuento"/>
+									<p:inputText id="txtMembresiaPorcentajeDescuento" disabled="true" binding="#{membresiaView.txtMembresiaPorcentajeDescuento}"/>
+																		<h:outputText id="msgMembresiaPuntos" value=" MembresiaPuntos"/>
+									<p:inputText id="txtMembresiaPuntos" disabled="true" binding="#{membresiaView.txtMembresiaPuntos}"/>
+																		<h:outputText id="msgConsumoId_Consumo" value=" ConsumoId_Consumo"/>
+									<p:inputText id="txtConsumoId_Consumo" disabled="true" binding="#{membresiaView.txtConsumoId_Consumo}"/>
+																		<h:outputText id="msgMiembroId_Miembro" value=" MiembroId_Miembro"/>
+									<p:inputText id="txtMiembroId_Miembro" disabled="true" binding="#{membresiaView.txtMiembroId_Miembro}"/>
+																		
+																													<h:outputText id="msgMembresiaFecha" value=" MembresiaFecha"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{membresiaView.txtMembresiaFecha}" >
+										<p:ajax event="dateSelect" listener="#{membresiaView.listener_txtMembresiaFecha}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{membresiaView.btnSave}" value="Save" action="#{membresiaView.action_save()}" update=":dialogMembresia :frm:panelDataTableMembresia" />
+									<p:commandButton id="btnClear" value="Clear" action="#{membresiaView.action_clear()}" update=":dialogMembresia" />
+									<p:commandButton id="btnExit" value="Exit" action="#{membresiaView.action_closeDialog()}" update=":dialogMembresia" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

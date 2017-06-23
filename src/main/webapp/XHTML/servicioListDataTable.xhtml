@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableServicio" header="ServicioData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{servicioView.data}" var="servicio"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{servicio.servicioId}" sortBy="#{servicio.servicioId}" >
+										 <f:facet name="header">
+										<h:outputText value="servicioId"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.servicioId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{servicio.servicioBeneficios}" sortBy="#{servicio.servicioBeneficios}" >
+										 <f:facet name="header">
+										<h:outputText value="ServicioBeneficios"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.servicioBeneficios}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{servicio.servicioFechaCreacion}" sortBy="#{servicio.servicioFechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="ServicioFechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.servicioFechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{servicio.servicioImagen}" sortBy="#{servicio.servicioImagen}" >
+										 <f:facet name="header">
+										<h:outputText value="ServicioImagen"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.servicioImagen}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{servicio.servicionFechaModificacion}" sortBy="#{servicio.servicionFechaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="ServicionFechaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.servicionFechaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{servicio.claseTipoId_ClaseTipo}" sortBy="#{servicio.claseTipoId_ClaseTipo}" >
+										 <f:facet name="header">
+										<h:outputText value="ClaseTipoId_ClaseTipo"/>
+										</f:facet>
+										 <h:outputText value="#{servicio.claseTipoId_ClaseTipo}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogServicio"
+										actionListener="#{servicioView.action_edit}">
+										<f:attribute name="selectedServicio" value="#{servicio}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{servicioView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedServicio" value="#{servicio}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{servicioView.action_new()}" update=":dialogServicio" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogServicio" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{servicioView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelServicio" header="Servicio">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgServicioId" value="ServicioId"/>
+									 <p:inputText id="txtServicioId" binding="#{servicioView.txtServicioId}">
+									 <p:ajax update=":dialogServicio" listener="#{servicioView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgServicioBeneficios" value=" ServicioBeneficios"/>
+									<p:inputText id="txtServicioBeneficios" disabled="true" binding="#{servicioView.txtServicioBeneficios}"/>
+																		<h:outputText id="msgServicioImagen" value=" ServicioImagen"/>
+									<p:inputText id="txtServicioImagen" disabled="true" binding="#{servicioView.txtServicioImagen}"/>
+																		<h:outputText id="msgClaseTipoId_ClaseTipo" value=" ClaseTipoId_ClaseTipo"/>
+									<p:inputText id="txtClaseTipoId_ClaseTipo" disabled="true" binding="#{servicioView.txtClaseTipoId_ClaseTipo}"/>
+																		
+																													<h:outputText id="msgServicioFechaCreacion" value=" ServicioFechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{servicioView.txtServicioFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{servicioView.listener_txtServicioFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgServicionFechaModificacion" value=" ServicionFechaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{servicioView.txtServicionFechaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{servicioView.listener_txtServicionFechaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{servicioView.btnSave}" value="Save" action="#{servicioView.action_save()}" update=":dialogServicio :frm:panelDataTableServicio" />
+									<p:commandButton id="btnClear" value="Clear" action="#{servicioView.action_clear()}" update=":dialogServicio" />
+									<p:commandButton id="btnExit" value="Exit" action="#{servicioView.action_closeDialog()}" update=":dialogServicio" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

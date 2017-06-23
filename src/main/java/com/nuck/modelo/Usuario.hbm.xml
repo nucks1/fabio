@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Usuario" table="usuario" schema="public" optimistic-lock="version">
+        <id name="usuarioId" type="java.lang.Integer">
+            <column name="usuario_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="usuarioNombre" type="java.lang.String">
+            <column name="usuario_nombre" length="20" not-null="true" />
+        </property>
+        <property name="usuarioPasswd" type="java.lang.String">
+            <column name="usuario_passwd" length="20" not-null="true" />
+        </property>
+        <property name="usuarioAdmin" type="java.lang.String">
+            <column name="usuario_admin" length="1" />
+        </property>
+        <property name="usuarioImagen" type="java.lang.String">
+            <column name="usuario_imagen" length="20" />
+        </property>
+        <property name="usuarioFechaCreacion" type="java.util.Date">
+            <column name="usuario_fecha_creacion" length="29" />
+        </property>
+        <property name="usuarioFechaModificacion" type="java.util.Date">
+            <column name="usuario_fecha_modificacion" length="29" />
+        </property>
+        <set name="miembros" table="miembro" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="miembro_login_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Miembro" />
+        </set>
+        <set name="colaboradors" table="colaborador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="colaborador_login_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Colaborador" />
+        </set>
+    </class>
+</hibernate-mapping>

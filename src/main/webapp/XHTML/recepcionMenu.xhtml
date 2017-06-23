@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<f:view>
+		<ui:composition>
+			<p:outputPanel styleClass="nuckPanel" style="padding: 20px;">
+				<h:form rendered="#{message.recepcionUser()}">
+					<div class="main ng-scope">
+						<p:outputPanel style="width: 100%">
+							<div class="container-fluid maker ng-scope">
+								<div class="row">
+									<div class="col-md-9 maker-right">
+										<div class="row preview-html">
+											<div class="col-md-12">
+												<div id="cssmenu-opciones">
+													<ul>
+														<li
+															class="#{message.menuRecepcionEntradaActive ? 'active' : null}">
+															<p:commandLink value="Registro" update="@all"
+																action="#{message.getMenuRecepcionEntrada()}" />
+														</li>
+														<li
+															class="#{message.menuRecepcionSalidaActive? 'active' : null}">
+															<p:commandLink value="Seguimiento" update="@all"
+																action="#{message.getMenuRecepcionSalida()}" />
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /row -->
+							</div>
+						</p:outputPanel>
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</ui:composition>
+	</f:view>
+</h:body>
+</html>

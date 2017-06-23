@@ -1,0 +1,868 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<script type="text/javascript">
+		$('#iconified').on('keyup', function() {
+			var input = $(this);
+			if (input.val().length === 0) {
+				input.addClass('empty');
+			} else {
+				input.removeClass('empty');
+			}
+		});
+	</script>
+	<script type="text/javascript">
+		function handleDrop(event, ui) {
+			var droppedCar = ui.draggable;
+
+			droppedCar.fadeOut('fast');
+		}
+	</script>
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<ui:include src="/XHTML/recepcionMenu.xhtml" />
+				<br />
+				<p:outputPanel styleClass="nuckPanel"
+					style="marggin-top: 0px; padding-left: 20px; padding-right: 20px;">
+					<h:form id="frm2" rendered="#{message.recepcionUser()}"
+						styleClass="dataTableFont">
+						<p:dataTable value="#{miembroView.data}" var="miembro">
+							<f:facet name="header">
+								<h:panelGrid columns="1" styleClass="logoDataTable">
+									<p:outputPanel styleClass="datatable-menu-item">
+										<p:menuButton value="Nuevo">
+											<p:menuitem value="Miembro" styleClass="dataTableFont"
+												action="#{miembroView.action_new_miembro()}"
+												update=":dialogNuevoMiembro" />
+											<p:separator />
+											<p:menuitem value="Cliente" styleClass="dataTableFont"
+												action="#{miembroView.action_new_cliente()}"
+												update=":dialogNuevoCliente" />
+											<p:separator />
+										</p:menuButton>
+									</p:outputPanel>
+									<h:panelGrid columns="2">
+										<p:outputPanel style="text-align: left;">
+											<p:commandLink
+												disabled="#{miembroView.pager.fromCounter == miembroView.pager.maxResultsTop}"
+												action="#{miembroView.pager.action_go_fast_backward()}"
+												update=":frm2">
+												<i class="fa fa-fast-backward" />
+											</p:commandLink>
+												&#160;
+													<p:commandLink
+												disabled="#{miembroView.pager.fromCounter == miembroView.pager.maxResultsTop}"
+												action="#{miembroView.pager.action_go_backward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-left" />
+											</p:commandLink>
+												&#160;
+												<p:commandLink
+												disabled="#{miembroView.pager.toCounter >= miembroView.pager.numberOfRecords}"
+												action="#{miembroView.pager.action_go_forward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-right" />
+											</p:commandLink>
+												&#160;
+												<p:commandLink
+												disabled="#{miembroView.pager.toCounter >= miembroView.pager.numberOfRecords}"
+												action="#{miembroView.pager.action_go_fast_forward()}"
+												update=":frm2">
+												<i class="fa fa-fast-forward" />
+											</p:commandLink>
+										</p:outputPanel>
+										<p:outputPanel style="text-align: right;">
+											<p:commandLink action="#{miembroView.pager.action_reload()}"
+												update=":frm2">
+												<i class="fa fa-refresh" />
+											</p:commandLink>
+												&#160;	
+												<p:inputText styleClass="empty" id="iconified"
+												placeholder="&#xF002;" value="#{miembroView.pager.keyWord}"
+												onchange="document.getElementById('searchButton').click();" />
+											<p:commandButton id="searchButton"
+												style="padding-top:-15px; display: none;"
+												action="#{miembroView.pager.action_search()}" update=":frm2" />
+											<p:commandLink action="#{miembroView.pager.action_search()}"
+												update=":frm2">
+												<i class="fa fa-arrow-right" />
+											</p:commandLink>
+										</p:outputPanel>
+									</h:panelGrid>
+								</h:panelGrid>
+							</f:facet>
+							<p:column headerText="Cedula" styleClass="center">
+								<h:outputText value="#{miembro.miembroNumeroIdentificacion}" />
+							</p:column>
+							<p:column headerText="Nombre" styleClass="center">
+								<h:outputText
+									value="#{miembro.miembroNombre}
+									#{miembro.miembroApellido}" />
+							</p:column>
+							
+							<p:column headerText="Puntos" styleClass="center">
+								<h:outputText
+									value="#{miembro.membresiaPuntos}"/>
+							</p:column>
+
+							<p:column headerText="Servicios" styleClass="center">
+								<p:commandButton value="Servicios"
+									update=":dialogEntradaMiembro"
+									action="#{entradaView.action_ingreso_miembro(miembro)}">
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<p:dialog id="dialogNuevoMiembro" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="false"
+						visible="#{miembroView.showDialogNuevoMiembro}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel
+								style="padding-left: 95%; font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close" immediate="true"
+									action="#{miembroView.action_closeDialog_new_miembro()}"
+									update=":frm2 :dialogNuevoMiembro" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmNuevoMiembro"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg" />
+							<p:panel>
+								<h:panelGrid columns="2">
+									<p:outputLabel value=" Referido? " />
+									<p:selectBooleanCheckbox value="#{miembroView.referido}"
+										style="text-align: right;">
+										<p:ajax update=":dialogReferido :dialogNuevoMiembro"
+											listener="#{miembroView.action_showDialog_referido()}" />
+									</p:selectBooleanCheckbox>
+
+									<p:outputLabel for="msgMiembroNombreReferido"
+										value=" Miembro Fabs:" rendered="#{miembroView.referido}" />
+									<p:inputText id="msgMiembroNombreReferido"
+										binding="#{miembroView.txtMiembroNombreReferido}"
+										immediate="true" rendered="#{miembroView.referido}"
+										disabled="true" />
+
+									<p:outputLabel for="msgMiembroNombre" value=" Nombre " />
+									<p:inputText id="msgMiembroNombre"
+										binding="#{miembroView.txtMiembroNombre}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroApellido" value=" Apellido:" />
+									<p:inputText id="msgMiembroApellido"
+										binding="#{miembroView.txtMiembroApellido}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroIdentificacion"
+										value=" Cédula:" />
+									<p:inputText id="msgMiembroNumeroIdentificacion"
+										binding="#{miembroView.txtMiembroNumeroIdentificacion}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroCelular"
+										value=" Numero celular:" />
+									<p:inputText id="msgMiembroNumeroCelular"
+										binding="#{miembroView.txtMiembroNumeroCelular}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroTelefono"
+										value=" Numero telefono fijo:" />
+									<p:inputText id="msgMiembroNumeroTelefono"
+										binding="#{miembroView.txtMiembroNumeroTelefono}" />
+
+									<p:outputLabel for="msgMiembroDireccion" value=" Direccion:" />
+									<p:inputText id="msgMiembroDireccion"
+										binding="#{miembroView.txtMiembroDireccion}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroBarrio" value=" Barrio:" />
+									<p:inputText id="msgMiembroBarrio"
+										binding="#{miembroView.txtMiembroBarrio}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroCorreoElctronico"
+										value=" Correo elctronico:" />
+									<p:inputText id="msgMiembroCorreoElctronico"
+										binding="#{miembroView.txtMiembroCorreoElctronico}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroFechaNacimiento"
+										value=" Fecha de nacimiento:" />
+									<p:calendar id="msgMiembroFechaNacimiento" showOn="button"
+										navigator="true" locale="en" immediate="true"
+										binding="#{miembroView.txtMiembroFechaNacimiento}"
+										required="true" />
+								</h:panelGrid>
+							</p:panel>
+							<br />
+							<p:outputPanel styleClass="right">
+								<p:commandButton value="Guardar" icon="fa fa-save"
+									action="#{miembroView.action_create()}"
+									update=":frm2 :dialogNuevoMiembro" />
+							</p:outputPanel>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogNuevoCliente" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="false"
+						visible="#{miembroView.showDialogNuevoCliente}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel
+								style="padding-left: 95%; font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close" immediate="true"
+									action="#{miembroView.action_closeDialog_new_cliente()}"
+									update=":frm2 :dialogNuevoCliente" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmNuevoCliente"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg" />
+							<p:panel>
+								<h:panelGrid columns="2">
+									<p:outputLabel for="msgClientNombre" value=" Nombre " />
+									<p:inputText id="msgClientNombre"
+										binding="#{miembroView.txtClienteNombre}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgClientApellido" value=" Apellido:" />
+									<p:inputText id="msgClientApellido"
+										binding="#{miembroView.txtClienteApellido}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgClientNumeroIdentificacion"
+										value=" Cédula" />
+									<p:inputText id="msgClientNumeroIdentificacion"
+										binding="#{miembroView.txtClienteNumeroIdentificacion}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgClientNumeroCelular"
+										value=" Numero celular:" />
+									<p:inputText id="msgClientNumeroCelular"
+										binding="#{miembroView.txtClienteNumeroCelular}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgClientNumeroTelefono"
+										value=" Numero telefono fijo:" />
+									<p:inputText id="msgClientNumeroTelefono"
+										binding="#{miembroView.txtClienteNumeroTelefono}" />
+
+									<p:outputLabel for="msgClientDireccion" value=" Direccion:" />
+									<p:inputText id="msgClientDireccion"
+										binding="#{miembroView.txtClienteDireccion}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgClientBarrio" value=" Barrio:" />
+									<p:inputText id="msgClientBarrio"
+										binding="#{miembroView.txtClienteBarrio}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgClientCorreoElctronico"
+										value=" Correo elctronico:" />
+									<p:inputText id="msgClientCorreoElctronico"
+										binding="#{miembroView.txtClienteCorreoElctronico}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgClientFechaNacimiento"
+										value=" Fecha de nacimiento:" />
+									<p:calendar id="msgClientFechaNacimiento" showOn="button"
+										navigator="true" locale="en" immediate="true"
+										binding="#{miembroView.txtClienteFechaNacimiento}"
+										required="true" />
+								</h:panelGrid>
+								<br />
+								<p:outputPanel styleClass="right">
+									<p:commandButton value="Guardar" icon="fa fa-save"
+										action="#{miembroView.action_create_cliente()}"
+										update=":frm2 :dialogNuevoCliente" />
+								</p:outputPanel>
+							</p:panel>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogReferido" appendTo="@(body)" draggable="true"
+						hideEffect="fade" closable="false"
+						visible="#{miembroView.showDialogReferido}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel
+								style="padding-left: 95%; font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close" immediate="true"
+									action="#{miembroView.action_closeDialog_referido}"
+									update=":dialogReferido :dialogNuevoMiembro" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogReferido"
+							style="font-size:small; font-family:Arial;">
+							<p:dataTable var="miembro" value="#{miembroView.dataReferido}"
+								selectionMode="single" rowKey="#{miembro.miembroId}"
+								selection="#{miembroView.selectedMiembroReferido}">
+								<f:facet name="header">
+									<h:panelGrid columns="1"
+										styleClass="logoDataTable datatable-header-tittle">
+										<i class="fa fa-cogs" />
+										<p:outputLabel value="Miembros" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" styleClass="logoDataTable">
+										<h:panelGrid columns="2">
+											<p:outputPanel style="text-align: left;">
+												<p:commandLink
+													disabled="#{miembroView.pagerReferido.fromCounter == miembroView.pagerReferido.maxResultsTop}"
+													action="#{miembroView.pagerReferido.action_go_fast_backward()}"
+													update=":dialogReferido">
+													<i class="fa fa-fast-backward" />
+												</p:commandLink>
+											&#160;
+												<p:commandLink
+													disabled="#{miembroView.pagerReferido.fromCounter == miembroView.pagerReferido.maxResultsTop}"
+													action="#{miembroView.pagerReferido.action_go_backward()}"
+													update=":dialogReferido">
+													<i class="fa fa-chevron-left" />
+												</p:commandLink>
+											&#160;
+											<p:commandLink
+													disabled="#{miembroView.pagerReferido.toCounter >= miembroView.pagerReferido.numberOfRecords}"
+													action="#{miembroView.pagerReferido.action_go_forward()}"
+													update=":dialogReferido">
+													<i class="fa fa-chevron-right" />
+												</p:commandLink>
+											&#160;
+											<p:commandLink
+													disabled="#{miembroView.pagerReferido.toCounter >= miembroView.pagerReferido.numberOfRecords}"
+													action="#{miembroView.pagerReferido.action_go_fast_forward()}"
+													update=":dialogReferido">
+													<i class="fa fa-fast-forward" />
+												</p:commandLink>
+											</p:outputPanel>
+											<p:outputPanel style="text-align: right;">
+												<p:commandLink
+													action="#{miembroView.pagerReferido.action_reload()}"
+													update=":dialogReferido">
+													<i class="fa fa-refresh" />
+												</p:commandLink>
+											&#160;	
+											<p:inputText styleClass="empty" id="iconified"
+													placeholder="&#xF002;"
+													value="#{miembroView.pagerReferido.keyWord}"
+													onchange="document.getElementById('searchButton').click();" />
+												<p:commandButton id="searchButton"
+													style="padding-top:-15px; display: none;"
+													action="#{miembroView.pagerReferido.action_search()}"
+													update=":dialogReferido" />
+												<p:commandLink
+													action="#{miembroView.pagerReferido.action_search()}"
+													update=":dialogReferido">
+													<i class="fa fa-arrow-right" />
+												</p:commandLink>
+											</p:outputPanel>
+										</h:panelGrid>
+									</h:panelGrid>
+								</f:facet>
+								<p:ajax event="rowSelect"
+									listener="#{miembroView.action_select_miembro_referido}"
+									update=":dialogNuevoMiembro :dialogReferido :dialogNoCupo" />
+								<p:column headerText="Nombre">
+									<h:outputText value="#{miembro.miembroNombre}" />
+								</p:column>
+								<p:column headerText="Apellido">
+									<h:outputText value="#{miembro.miembroApellido}" />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogNoCupo" appendTo="@(body)" hideEffect="fade"
+						closable="false" visible="#{miembroView.showDialogNoCupo}"
+						showEffect="fade" resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel
+								style="padding-left: 95%; font-size:small; font-family:Arial;">
+								<p:commandButton styleClass="dataTableFont"
+									action="#{miembroView.action_closeDialog_no_cupo}"
+									update=":dialogNoCupo :dialogReferido" icon="fa fa-close" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogNoCupo"
+							style="font-size:small; font-family:Arial;">
+							<h:panelGrid columns="2">
+								<p:messages id="msgNoCupo" />
+							</h:panelGrid>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogEntradaMiembro" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="false"
+						visible="#{entradaView.showDialogEntradaMiembro}"
+						showEffect="fade" resizable="false" modal="true" width="100%">
+						<f:facet name="header">
+							<p:outputPanel style="font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close"
+									action="#{entradaView.action_closeDialog_entrada_miembro()}"
+									update=":dialogEntradaMiembro" immediate="true" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogEntrada"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg2" />
+							<p:fieldset id="availableServicesField"
+								legend="Servicios Disponibles">
+								<p:dataTable id="availableServices" var="service"
+									scrollable="true" scrollHeight="250"
+									value="#{entradaView.selectedMiembro.serviciosDTO}">
+
+									<p:column style="width:20px">
+										<h:commandLink id="dragIcon"
+											styleClass="ui-icon ui-icon-arrow-4" />
+										<p:draggable for="dragIcon" revert="true" helper="clone" />
+									</p:column>
+
+									<p:column headerText="Nombre" sortBy="#{service.claseTipoDTO.claseTipoDescripcion}">
+										<h:outputText
+											value="#{service.claseTipoDTO.claseTipoDescripcion}" />
+									</p:column>
+
+									<p:column headerText="Valor" sortBy="#{service.claseTipoDTO.claseTipoCostoIngreso}">
+										<h:outputText
+											value="#{service.claseTipoDTO.claseTipoCostoIngreso}">
+											<f:convertNumber type="currency" currencySymbol="$" />
+										</h:outputText>
+									</p:column>
+								</p:dataTable>
+							</p:fieldset>
+
+							<p:fieldset id="selectedServices"
+								legend="Servicios Seleccionados" style="margin-top:20px">
+								<p:outputPanel id="dropArea">
+									<h:outputText value="!!!Mover los servicios a éste lugar!!!"
+										rendered="#{empty entradaView.selectedMiembro.selectedData}"
+										style="font-size:24px;" />
+									<p:dataTable id="selectedServiceTable" var="service"
+										value="#{entradaView.selectedMiembro.selectedData}"
+										rendered="#{not empty entradaView.selectedMiembro.selectedData}">
+
+										<p:column headerText="Nombre" sortBy="#{service.servicioDTO.claseTipoDTO.claseTipoDescripcion}" 
+											style="width: 20%">
+											<h:outputText
+												value="#{service.servicioDTO.claseTipoDTO.claseTipoDescripcion}" />
+										</p:column>
+
+										<p:column headerText="Responsable" width="20%">
+											<p:selectOneMenu value="#{service.colaboradorDTO}"
+												converter="colaboradorConverter" effect="fade" var="c">
+												<f:selectItems value="#{entradaView.dataColaborador}"
+													var="colaborador"
+													itemLabel="#{colaborador.colaboradorNombre}
+														#{colaborador.colaboradorApellido}"
+													itemValue="#{colaborador}" />
+
+												<p:column>
+													<h:outputText value="#{c}" />
+												</p:column>
+											</p:selectOneMenu>
+										</p:column>
+										
+										<p:column headerText="Tiempos" styleClass="center" width="10%">
+											<p:commandButton icon="fa fa-clock-o"
+												action="#{entradaView.action_showDialog_tiempos(service)}"
+												update=":dialogTiempos :dialogEntradaMiembro" />
+										</p:column>
+
+										<p:column headerText="Agregar Productos" styleClass="center" width="10%">
+											<p:commandButton icon="fa fa-plus-circle"
+												action="#{entradaView.action_showDialog_agregar_productos(service)}"
+												update=":dialogAgregar :dialogEntradaMiembro" />
+										</p:column>
+										
+										<p:column headerText="Valor Adicional" styleClass="center" width="10%">
+											<p:commandButton icon="fa fa-plus-circle"
+												action="#{entradaView.action_showDialog_valor_adicional(service)}"
+												update=":dialogValorAdicional :dialogEntradaMiembro" />
+										</p:column>
+
+										<p:column headerText="Discriminación de Servicios" width="25%">
+											<p:outputPanel
+												rendered="#{not empty service.servicioDTO.selectedProductosDTO}">
+												<ui:repeat
+													value="#{service.servicioDTO.selectedProductosDTO}"
+													var="producto">
+													<h:panelGrid columns="2" styleClass="logoDataTable">
+														<h:outputText
+															value="#{producto.claseTipoDTO.claseTipoDescripcion} x 
+															#{producto.productoCantidadPxTotal}#{producto.productoCantidadTipo}" />
+														<h:outputText
+															value="#{producto.productoValorProducto}">
+															<f:convertNumber type="currency" currencySymbol="$" />
+														</h:outputText>
+													</h:panelGrid>
+												</ui:repeat>
+											</p:outputPanel>
+											<h:panelGrid columns="2" styleClass="logoDataTable">
+												<h:outputText value="#{service.servicioDTO.claseTipoDTO.claseTipoDescripcion}" />
+												<h:outputText
+													value="#{service.servicioDTO.claseTipoDTO.claseTipoCostoIngreso}">
+													<f:convertNumber type="currency" currencySymbol="$" />
+												</h:outputText>
+											</h:panelGrid>
+											<p:outputPanel
+												rendered="#{not empty service.adicionalServicio}">
+												<ui:repeat
+													value="#{service.adicionalServicio}"
+													var="adicional">
+													<h:panelGrid columns="2" styleClass="logoDataTable">
+														<h:outputText
+															value="#{adicional.descripcion}"/>
+														<h:outputText
+															value="#{adicional.valor}">
+															<f:convertNumber type="currency" currencySymbol="$" />
+														</h:outputText>
+													</h:panelGrid>
+												</ui:repeat>
+											</p:outputPanel>
+											<h:panelGrid columns="2" styleClass="logoDataTable">
+												<h:outputText value="Dcto." />
+												<h:outputText
+													value="#{entradaView.selectedMiembro.membresiaPorcentajeDescuento}">
+													<f:convertNumber type="percent" />
+												</h:outputText>
+											</h:panelGrid>
+										</p:column>
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="5" footerText="Total:"
+													style="text-align:right" />
+												<p:column colspan="6" style="text-align:left">
+													<f:facet name="footer">
+														<h:panelGrid columns="2" styleClass="logoDataTable"
+															style="text-align:left">
+															<h:outputText value="#{entradaView.totalConsumo}"
+																style="text-align:left">
+																<f:convertNumber type="currency" currencySymbol="$" />
+															</h:outputText>
+															<p:commandButton value="Pagar"
+																styleClass="right"
+																action="#{entradaView.action_showDialog_pagar(service)}"
+																update=":dialogEntradaMiembro :dialogPagar"/>
+														</h:panelGrid>
+													</f:facet>
+												</p:column>
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+									<br />
+									<p:outputPanel styleClass="right">
+										<p:commandButton value="Aceptar"
+											rendered="#{not empty entradaView.selectedMiembro.selectedData}"
+											action="#{entradaView.action_create_entrada()}"
+											update=":dialogEntradaMiembro" />
+									</p:outputPanel>
+								</p:outputPanel>
+							</p:fieldset>
+
+							<p:droppable for="selectedServices" tolerance="touch"
+								activeStyleClass="ui-state-highlight"
+								datasource="availableServices">
+								<p:ajax listener="#{entradaView.onServiceDrop}"
+									update="dropArea availableServices" />
+							</p:droppable>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogAgregar" appendTo="@(body)" draggable="true"
+						hideEffect="fade" closable="false"
+						visible="#{entradaView.showDialogAgregarProductos}"
+						showEffect="fade" resizable="false" modal="true" width="100%">
+						<f:facet name="header">
+							<p:outputPanel style="font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close"
+									action="#{entradaView.action_closeDialog_agregar_productos()}"
+									update=":dialogAgregar :dialogEntradaMiembro" immediate="true" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogAgregar"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg2" />
+							<p:fieldset id="availableProductsField"
+								legend="Productos Disponibles">
+								<p:dataTable id="availableProducts" var="product"
+									scrollable="true" scrollHeight="250"
+									value="#{entradaView.selectedColaboradorServicio.servicioDTO.productosDTO}">
+
+									<p:column style="width:20px">
+										<h:commandLink id="dragIcon3"
+											styleClass="ui-icon ui-icon-arrow-4" />
+										<p:draggable for="dragIcon3" revert="true" helper="clone" />
+									</p:column>
+
+									<p:column headerText="Nombre" sortBy="#{product.claseTipoDTO.claseTipoDescripcion}">
+										<h:outputText
+											value="#{product.claseTipoDTO.claseTipoDescripcion}" />
+									</p:column>
+
+									<p:column headerText="Linea Cosmetica" sortBy="#{product.productoBeneficios}">
+										<h:outputText value="#{product.productoBeneficios}" />
+									</p:column>
+									
+									<p:column headerText="Cantidad" sortBy="#{product.productoBeneficios}">
+										<h:outputText value="#{product.productoCantidadPx} 
+											#{product.productoCantidadTipo}" />
+									</p:column>
+
+									<p:column headerText="Valor" sortBy="#{product.productoValorNeto}">
+										<h:outputText
+											value="#{product.productoValorNeto}">
+											<f:convertNumber type="currency" currencySymbol="$" />
+										</h:outputText>
+									</p:column>
+								</p:dataTable>
+							</p:fieldset>
+
+							<p:fieldset id="selectedProducts"
+								legend="Productos Seleccionados" style="margin-top:20px">
+								<p:outputPanel id="dropArea2">
+									<h:outputText value="!!!Mover los productos a éste lugar!!!"
+										rendered="#{empty entradaView.selectedColaboradorServicio.servicioDTO.selectedProductosDTO}"
+										style="font-size:24px;" />
+									<p:dataTable id="selectedProductTable" var="product"
+										value="#{entradaView.selectedColaboradorServicio.servicioDTO.selectedProductosDTO}"
+										rendered="#{not empty entradaView.selectedColaboradorServicio.servicioDTO.selectedProductosDTO}">
+
+										<p:column headerText="Nombre" sortBy="#{product.claseTipoDTO.claseTipoDescripcion}" 
+											style="width: 50%">
+											<h:outputText
+												value="#{product.claseTipoDTO.claseTipoDescripcion} x 
+												#{product.productoCantidadPxTotal}#{product.productoCantidadTipo}"  />
+										</p:column>
+
+										<p:column headerText="Valor" sortBy="#{product.productoValorProducto}" style="width: 50%">
+											<h:outputText
+												value="#{product.productoValorProducto}">
+												<f:convertNumber type="currency" currencySymbol="$" />
+											</h:outputText>
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="1" footerText="Total:"
+													style="text-align:right" />
+												<p:column colspan="2" style="text-align:left">
+													<f:facet name="footer">
+														<h:outputText
+															value="#{entradaView.selectedColaboradorServicio.servicioDTO.totalAdicionales}">
+															<f:convertNumber type="currency" currencySymbol="$" />
+														</h:outputText>
+													</f:facet>
+												</p:column>
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+									<br />
+									<p:outputPanel styleClass="right">
+										<p:commandButton value="Aceptar"
+											rendered="#{not empty entradaView.selectedColaboradorServicio.servicioDTO.selectedProductosDTO}"
+											action="#{entradaView.action_closeDialog_agregar_productos()}"
+											update=":dialogAgregar :dialogEntradaMiembro" />
+									</p:outputPanel>
+								</p:outputPanel>
+							</p:fieldset>
+
+							<p:droppable for="selectedProducts" tolerance="touch"
+								activeStyleClass="ui-state-highlight"
+								datasource="availableProducts">
+								<p:ajax listener="#{entradaView.onProductDrop}"
+									update="dropArea2 availableProducts" />
+							</p:droppable>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogValorAdicional" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="false"
+						visible="#{entradaView.showDialogValorAdicional}"
+						showEffect="fade" resizable="false" modal="true">
+						<f:facet name="header">
+							<p:outputPanel style="font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close"
+									action="#{entradaView.action_closeDialog_valor_adicional()}"
+									update=":dialogValorAdicional :dialogEntradaMiembro" immediate="true" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogValorAdicional"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg3" />
+							<p:outputPanel>
+								<h:panelGrid columns="2">
+									<p:outputLabel for="txtDescripcionValorAdicional" value="Descripción"/>
+									<p:inputText id="txtDescripcionValorAdicional"
+										binding="#{entradaView.txtDescripcionValorAdicional}"
+										rendered="true" immediate="true"/>
+									<p:outputLabel for="txtValorValorAdicional" value="Valor"/>	
+									<p:inputNumber id="txtValorValorAdicional" 
+										binding="#{entradaView.txtValorValorAdicional}"
+										symbol="$" emptyValue="sign"
+										rendered="true" immediate="true"/>
+								</h:panelGrid>
+						    </p:outputPanel>
+							<br />
+							<p:outputPanel styleClass="right">
+								<p:commandButton value="Aceptar"
+									actionListener="#{entradaView.action_crear_valor_adicional()}"
+									update=":dialogValorAdicional :dialogEntradaMiembro :frmDialogValorAdicional:msg3" />
+							</p:outputPanel>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogTiempos" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="false"
+						visible="#{entradaView.showDialogTiempos}"
+						showEffect="fade" resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel style="font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close"
+									action="#{entradaView.action_closeDialog_tiempos()}"
+									update=":dialogTiempos :dialogEntradaMiembro"
+									immediate="true" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogTiempos" 
+							style="font-size:small; font-family:Arial;">
+							<p:panel id="panelTiempos">
+								<h:panelGrid columns="1">
+									<h:panelGrid columns="2">
+										<p:outputLabel for="btnEntrada" value="Inicio "/>
+										<p:commandButton id="btnEntrada" icon="ui-icon-check"
+											action="#{entradaView.selectedColaboradorServicio.servicioDTO.action_tiempo_entrada()}"
+											disabled="#{entradaView.selectedColaboradorServicio.servicioDTO.entradaActivo}"
+											update=":frmDialogTiempos:panelTiempos"/>
+									</h:panelGrid>
+									&#160;
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Hora inicio: "
+											rendered="#{entradaView.selectedColaboradorServicio.servicioDTO.showHoraEntrada}"/>
+										<p:outputLabel value="#{entradaView.selectedColaboradorServicio.servicioDTO.tiempoEntrada}"
+											rendered="#{entradaView.selectedColaboradorServicio.servicioDTO.showHoraEntrada}">
+											<f:convertDateTime pattern="hh:mm a"/>
+										</p:outputLabel>
+									</h:panelGrid>
+									&#160;
+									&#160;
+									<h:panelGrid columns="2">
+										<p:outputLabel for="btnSalida" value="Final "/>	
+										<p:commandButton id="btnSalida" icon="ui-icon-check"
+											action="#{entradaView.selectedColaboradorServicio.servicioDTO.action_tiempo_salida()}"
+											disabled="#{entradaView.selectedColaboradorServicio.servicioDTO.salidaActivo}"
+											update=":frmDialogTiempos:panelTiempos"/>
+									</h:panelGrid>
+									&#160;
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Hora final: "
+											rendered="#{entradaView.selectedColaboradorServicio.servicioDTO.showHoraSalida}"/>
+										<p:outputLabel value="#{entradaView.selectedColaboradorServicio.servicioDTO.tiempoSalida}"
+											rendered="#{entradaView.selectedColaboradorServicio.servicioDTO.showHoraSalida}">
+											<f:convertDateTime pattern="hh:mm a"/>
+										</p:outputLabel>
+									</h:panelGrid>
+								</h:panelGrid>
+						    </p:panel>
+							<br />
+							<p:outputPanel styleClass="right">
+								<p:commandButton value="Aceptar"
+									action="#{entradaView.action_closeDialog_tiempos()}"
+									update=":dialogTiempos :dialogEntradaMiembro " />
+							</p:outputPanel>
+						</h:form>
+					</p:dialog>
+
+					<p:dialog id="dialogPagar" appendTo="@(body)" draggable="true"
+						hideEffect="fade" closable="false"
+						visible="#{entradaView.showDialogPagar}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel style="font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close"
+									action="#{entradaView.action_closeDialog_pagar()}"
+									update=":dialogPagar :dialogEntradaMiembro :frm2" immediate="true" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="frmDialogPagar"
+							style="font-size:small; font-family:Arial;">
+							<p:outputPanel id="panelPagar" style="width: 100%">
+								<ui:repeat value="#{entradaView.selectedMiembro.selectedData}"
+									var="service">
+									<ui:repeat value="#{service.servicioDTO.selectedProductosDTO}"
+										var="producto" style="width: 100%; text-align: left;">
+										<p:panelGrid columns="2" >
+											<h:outputText
+												value="#{producto.claseTipoDTO.claseTipoDescripcion} x 
+													   #{producto.productoCantidadPxTotal}#{producto.productoCantidadTipo}" />
+											<h:outputText value="#{producto.productoValorProducto}">
+												<f:convertNumber type="currency" currencySymbol="$" />
+											</h:outputText>
+										</p:panelGrid>
+									</ui:repeat>
+									<p:panelGrid columns="2" styleClass="logoDataTable">
+										<h:outputText
+											value="#{service.servicioDTO.claseTipoDTO.claseTipoDescripcion}" />
+										<h:outputText
+											value="#{service.servicioDTO.claseTipoDTO.claseTipoCostoIngreso}">
+											<f:convertNumber type="currency" currencySymbol="$" />
+										</h:outputText>
+									</p:panelGrid>
+									<ui:repeat value="#{service.adicionalServicio}" var="adicional">
+										<p:panelGrid columns="2" styleClass="logoDataTable">
+											<h:outputText value="#{adicional.descripcion}" />
+											<h:outputText value="#{adicional.valor}">
+												<f:convertNumber type="currency" currencySymbol="$" />
+											</h:outputText>
+										</p:panelGrid>
+									</ui:repeat>
+								</ui:repeat>
+								<p:separator />
+								<p:outputPanel styleClass="right">
+									<p:panelGrid columns="2" styleClass="logoDataTable">
+										<h:outputText value="Total: " />
+										<h:outputText value="#{entradaView.totalConsumo}">
+											<f:convertNumber type="currency" currencySymbol="$" />
+										</h:outputText>
+									</p:panelGrid>
+								</p:outputPanel>
+							</p:outputPanel>
+							<p:outputPanel>
+								<br />
+								<p:panel styleClass="right">
+									<p:panelGrid columns="2" styleClass="logoDataTable">
+										<p:selectOneButton value="#{entradaView.selectedMiembro.pagoTipo}">
+											<f:selectItem itemLabel="Pago en efectivo" itemValue="Pago en efectivo" />
+											<f:selectItem itemLabel="Pago con tarjeta" itemValue="Pago con tarjeta" />
+											<p:ajax update=":frmDialogPagar:btnPagar"/>
+										</p:selectOneButton>
+										<p:commandButton id="btnPagar" value="Pagar"
+											type="button"
+											action="#{entradaView.action_create_ingreso()}"
+											disabled="#{entradaView.selectedMiembro.pagarActivo}"
+											update=":dialogPagar :dialogEntradaMiembro :frm2">
+											<f:ajax execute="@this"/>
+											<p:printer target=":frmDialogPagar:panelPagar" />
+										</p:commandButton>
+									</p:panelGrid>
+								</p:panel>
+							</p:outputPanel>
+						</h:form>
+					</p:dialog>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

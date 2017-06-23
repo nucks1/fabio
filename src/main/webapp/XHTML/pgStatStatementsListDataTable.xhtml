@@ -1,0 +1,314 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTablePgStatStatements" header="PgStatStatementsData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{pgStatStatementsView.data}" var="pgStatStatements"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{pgStatStatements.userid}" sortBy="#{pgStatStatements.userid}" >
+										 <f:facet name="header">
+										<h:outputText value="userid"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.userid}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.dbid}" sortBy="#{pgStatStatements.dbid}" >
+										 <f:facet name="header">
+										<h:outputText value="dbid"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.dbid}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.queryid}" sortBy="#{pgStatStatements.queryid}" >
+										 <f:facet name="header">
+										<h:outputText value="queryid"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.queryid}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.query}" sortBy="#{pgStatStatements.query}" >
+										 <f:facet name="header">
+										<h:outputText value="query"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.query}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.calls}" sortBy="#{pgStatStatements.calls}" >
+										 <f:facet name="header">
+										<h:outputText value="calls"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.calls}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.totalTime}" sortBy="#{pgStatStatements.totalTime}" >
+										 <f:facet name="header">
+										<h:outputText value="totalTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.totalTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.minTime}" sortBy="#{pgStatStatements.minTime}" >
+										 <f:facet name="header">
+										<h:outputText value="minTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.minTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.maxTime}" sortBy="#{pgStatStatements.maxTime}" >
+										 <f:facet name="header">
+										<h:outputText value="maxTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.maxTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.meanTime}" sortBy="#{pgStatStatements.meanTime}" >
+										 <f:facet name="header">
+										<h:outputText value="meanTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.meanTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.stddevTime}" sortBy="#{pgStatStatements.stddevTime}" >
+										 <f:facet name="header">
+										<h:outputText value="stddevTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.stddevTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.rows}" sortBy="#{pgStatStatements.rows}" >
+										 <f:facet name="header">
+										<h:outputText value="rows"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.rows}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.sharedBlksHit}" sortBy="#{pgStatStatements.sharedBlksHit}" >
+										 <f:facet name="header">
+										<h:outputText value="sharedBlksHit"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.sharedBlksHit}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.sharedBlksRead}" sortBy="#{pgStatStatements.sharedBlksRead}" >
+										 <f:facet name="header">
+										<h:outputText value="sharedBlksRead"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.sharedBlksRead}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.sharedBlksDirtied}" sortBy="#{pgStatStatements.sharedBlksDirtied}" >
+										 <f:facet name="header">
+										<h:outputText value="sharedBlksDirtied"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.sharedBlksDirtied}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.sharedBlksWritten}" sortBy="#{pgStatStatements.sharedBlksWritten}" >
+										 <f:facet name="header">
+										<h:outputText value="sharedBlksWritten"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.sharedBlksWritten}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.localBlksHit}" sortBy="#{pgStatStatements.localBlksHit}" >
+										 <f:facet name="header">
+										<h:outputText value="localBlksHit"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.localBlksHit}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.localBlksRead}" sortBy="#{pgStatStatements.localBlksRead}" >
+										 <f:facet name="header">
+										<h:outputText value="localBlksRead"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.localBlksRead}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.localBlksDirtied}" sortBy="#{pgStatStatements.localBlksDirtied}" >
+										 <f:facet name="header">
+										<h:outputText value="localBlksDirtied"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.localBlksDirtied}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.localBlksWritten}" sortBy="#{pgStatStatements.localBlksWritten}" >
+										 <f:facet name="header">
+										<h:outputText value="localBlksWritten"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.localBlksWritten}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.tempBlksRead}" sortBy="#{pgStatStatements.tempBlksRead}" >
+										 <f:facet name="header">
+										<h:outputText value="tempBlksRead"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.tempBlksRead}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.tempBlksWritten}" sortBy="#{pgStatStatements.tempBlksWritten}" >
+										 <f:facet name="header">
+										<h:outputText value="tempBlksWritten"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.tempBlksWritten}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.blkReadTime}" sortBy="#{pgStatStatements.blkReadTime}" >
+										 <f:facet name="header">
+										<h:outputText value="blkReadTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.blkReadTime}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{pgStatStatements.blkWriteTime}" sortBy="#{pgStatStatements.blkWriteTime}" >
+										 <f:facet name="header">
+										<h:outputText value="blkWriteTime"/>
+										</f:facet>
+										 <h:outputText value="#{pgStatStatements.blkWriteTime}"/>
+										 </p:column>
+			                    																			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogPgStatStatements"
+										actionListener="#{pgStatStatementsView.action_edit}">
+										<f:attribute name="selectedPgStatStatements" value="#{pgStatStatements}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{pgStatStatementsView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedPgStatStatements" value="#{pgStatStatements}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{pgStatStatementsView.action_new()}" update=":dialogPgStatStatements" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogPgStatStatements" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{pgStatStatementsView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelPgStatStatements" header="PgStatStatements">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgUserid" value="Userid"/>
+									 <p:inputText id="txtUserid" binding="#{pgStatStatementsView.txtUserid}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgDbid" value="Dbid"/>
+									 <p:inputText id="txtDbid" binding="#{pgStatStatementsView.txtDbid}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgQueryid" value="Queryid"/>
+									 <p:inputText id="txtQueryid" binding="#{pgStatStatementsView.txtQueryid}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgQuery" value="Query"/>
+									 <p:inputText id="txtQuery" binding="#{pgStatStatementsView.txtQuery}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgCalls" value="Calls"/>
+									 <p:inputText id="txtCalls" binding="#{pgStatStatementsView.txtCalls}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgTotalTime" value="TotalTime"/>
+									 <p:inputText id="txtTotalTime" binding="#{pgStatStatementsView.txtTotalTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgMinTime" value="MinTime"/>
+									 <p:inputText id="txtMinTime" binding="#{pgStatStatementsView.txtMinTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgMaxTime" value="MaxTime"/>
+									 <p:inputText id="txtMaxTime" binding="#{pgStatStatementsView.txtMaxTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgMeanTime" value="MeanTime"/>
+									 <p:inputText id="txtMeanTime" binding="#{pgStatStatementsView.txtMeanTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgStddevTime" value="StddevTime"/>
+									 <p:inputText id="txtStddevTime" binding="#{pgStatStatementsView.txtStddevTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgRows" value="Rows"/>
+									 <p:inputText id="txtRows" binding="#{pgStatStatementsView.txtRows}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgSharedBlksHit" value="SharedBlksHit"/>
+									 <p:inputText id="txtSharedBlksHit" binding="#{pgStatStatementsView.txtSharedBlksHit}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgSharedBlksRead" value="SharedBlksRead"/>
+									 <p:inputText id="txtSharedBlksRead" binding="#{pgStatStatementsView.txtSharedBlksRead}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgSharedBlksDirtied" value="SharedBlksDirtied"/>
+									 <p:inputText id="txtSharedBlksDirtied" binding="#{pgStatStatementsView.txtSharedBlksDirtied}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgSharedBlksWritten" value="SharedBlksWritten"/>
+									 <p:inputText id="txtSharedBlksWritten" binding="#{pgStatStatementsView.txtSharedBlksWritten}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgLocalBlksHit" value="LocalBlksHit"/>
+									 <p:inputText id="txtLocalBlksHit" binding="#{pgStatStatementsView.txtLocalBlksHit}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgLocalBlksRead" value="LocalBlksRead"/>
+									 <p:inputText id="txtLocalBlksRead" binding="#{pgStatStatementsView.txtLocalBlksRead}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgLocalBlksDirtied" value="LocalBlksDirtied"/>
+									 <p:inputText id="txtLocalBlksDirtied" binding="#{pgStatStatementsView.txtLocalBlksDirtied}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgLocalBlksWritten" value="LocalBlksWritten"/>
+									 <p:inputText id="txtLocalBlksWritten" binding="#{pgStatStatementsView.txtLocalBlksWritten}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgTempBlksRead" value="TempBlksRead"/>
+									 <p:inputText id="txtTempBlksRead" binding="#{pgStatStatementsView.txtTempBlksRead}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgTempBlksWritten" value="TempBlksWritten"/>
+									 <p:inputText id="txtTempBlksWritten" binding="#{pgStatStatementsView.txtTempBlksWritten}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgBlkReadTime" value="BlkReadTime"/>
+									 <p:inputText id="txtBlkReadTime" binding="#{pgStatStatementsView.txtBlkReadTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgBlkWriteTime" value="BlkWriteTime"/>
+									 <p:inputText id="txtBlkWriteTime" binding="#{pgStatStatementsView.txtBlkWriteTime}">
+									 <p:ajax update=":dialogPgStatStatements" listener="#{pgStatStatementsView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{pgStatStatementsView.btnSave}" value="Save" action="#{pgStatStatementsView.action_save()}" update=":dialogPgStatStatements :frm:panelDataTablePgStatStatements" />
+									<p:commandButton id="btnClear" value="Clear" action="#{pgStatStatementsView.action_clear()}" update=":dialogPgStatStatements" />
+									<p:commandButton id="btnExit" value="Exit" action="#{pgStatStatementsView.action_closeDialog()}" update=":dialogPgStatStatements" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

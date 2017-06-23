@@ -1,0 +1,181 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="ProductoData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{productoView.data}" var="producto"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{productoView.rowEventListener}" />
+					
+															<p:column filterBy="#{producto.productoId}" sortBy="#{producto.productoId}" headerText="productoId">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{producto.productoId}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{producto.productoId}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{producto.productoBeneficios}" sortBy="#{producto.productoBeneficios}" 
+							headerText="productoBeneficios">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.productoBeneficios}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{producto.productoBeneficios}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{producto.productoCantidad}" sortBy="#{producto.productoCantidad}" 
+							headerText="productoCantidad">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.productoCantidad}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{producto.productoCantidad}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{producto.productoImagen}" sortBy="#{producto.productoImagen}" 
+							headerText="productoImagen">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.productoImagen}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{producto.productoImagen}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{producto.claseTipoId_ClaseTipo}" sortBy="#{producto.claseTipoId_ClaseTipo}" 
+							headerText="claseTipoId_ClaseTipo">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.claseTipoId_ClaseTipo}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{producto.claseTipoId_ClaseTipo}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{producto.productoFechaCrecaion}" sortBy="#{producto.productoFechaCrecaion}" 
+							headerText="productoFechaCrecaion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.productoFechaCrecaion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{producto.productoFechaCrecaion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{productoView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{producto.productoFechaModificacion}" sortBy="#{producto.productoFechaModificacion}" 
+							headerText="productoFechaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{producto.productoFechaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{producto.productoFechaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{productoView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{productoView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedProducto" value="#{producto}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

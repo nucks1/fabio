@@ -1,0 +1,209 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="MembresiaData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{membresiaView.data}" var="membresia"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{membresiaView.rowEventListener}" />
+					
+															<p:column filterBy="#{membresia.membresiaId}" sortBy="#{membresia.membresiaId}" headerText="membresiaId">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{membresia.membresiaId}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{membresia.membresiaId}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{membresia.membresiaDerecha}" sortBy="#{membresia.membresiaDerecha}" 
+							headerText="membresiaDerecha">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaDerecha}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.membresiaDerecha}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.membresiaIzquierda}" sortBy="#{membresia.membresiaIzquierda}" 
+							headerText="membresiaIzquierda">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaIzquierda}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.membresiaIzquierda}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.membresiaNivel}" sortBy="#{membresia.membresiaNivel}" 
+							headerText="membresiaNivel">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaNivel}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.membresiaNivel}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.membresiaPorcentajeDescuento}" sortBy="#{membresia.membresiaPorcentajeDescuento}" 
+							headerText="membresiaPorcentajeDescuento">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaPorcentajeDescuento}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.membresiaPorcentajeDescuento}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.membresiaPuntos}" sortBy="#{membresia.membresiaPuntos}" 
+							headerText="membresiaPuntos">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaPuntos}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.membresiaPuntos}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.consumoId_Consumo}" sortBy="#{membresia.consumoId_Consumo}" 
+							headerText="consumoId_Consumo">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.consumoId_Consumo}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.consumoId_Consumo}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{membresia.miembroId_Miembro}" sortBy="#{membresia.miembroId_Miembro}" 
+							headerText="miembroId_Miembro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.miembroId_Miembro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{membresia.miembroId_Miembro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{membresia.membresiaFecha}" sortBy="#{membresia.membresiaFecha}" 
+							headerText="membresiaFecha">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{membresia.membresiaFecha}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{membresia.membresiaFecha}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{membresiaView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{membresiaView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedMembresia" value="#{membresia}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

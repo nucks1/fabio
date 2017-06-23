@@ -1,0 +1,281 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="ColaboradorData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{colaboradorView.data}" var="colaborador"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{colaboradorView.rowEventListener}" />
+					
+															<p:column filterBy="#{colaborador.colaboradorId}" sortBy="#{colaborador.colaboradorId}" headerText="colaboradorId">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{colaborador.colaboradorId}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{colaborador.colaboradorId}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{colaborador.colaboradorApellido}" sortBy="#{colaborador.colaboradorApellido}" 
+							headerText="colaboradorApellido">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorApellido}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorApellido}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorBarrio}" sortBy="#{colaborador.colaboradorBarrio}" 
+							headerText="colaboradorBarrio">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorBarrio}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorBarrio}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorCorreoElctronico}" sortBy="#{colaborador.colaboradorCorreoElctronico}" 
+							headerText="colaboradorCorreoElctronico">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorCorreoElctronico}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorCorreoElctronico}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorDireccion}" sortBy="#{colaborador.colaboradorDireccion}" 
+							headerText="colaboradorDireccion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorDireccion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorDireccion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorNombre}" sortBy="#{colaborador.colaboradorNombre}" 
+							headerText="colaboradorNombre">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorNombre}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorNombre}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorNumeroCelular}" sortBy="#{colaborador.colaboradorNumeroCelular}" 
+							headerText="colaboradorNumeroCelular">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorNumeroCelular}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorNumeroCelular}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorNumeroIdentificacion}" sortBy="#{colaborador.colaboradorNumeroIdentificacion}" 
+							headerText="colaboradorNumeroIdentificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorNumeroIdentificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorNumeroIdentificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.colaboradorNumeroTelefono}" sortBy="#{colaborador.colaboradorNumeroTelefono}" 
+							headerText="colaboradorNumeroTelefono">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorNumeroTelefono}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.colaboradorNumeroTelefono}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{colaborador.usuarioId_Usuario}" sortBy="#{colaborador.usuarioId_Usuario}" 
+							headerText="usuarioId_Usuario">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.usuarioId_Usuario}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{colaborador.usuarioId_Usuario}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{colaborador.colaboradorFechaCreacion}" sortBy="#{colaborador.colaboradorFechaCreacion}" 
+							headerText="colaboradorFechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorFechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{colaborador.colaboradorFechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{colaboradorView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{colaborador.colaboradorFechaModificacion}" sortBy="#{colaborador.colaboradorFechaModificacion}" 
+							headerText="colaboradorFechaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorFechaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{colaborador.colaboradorFechaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{colaboradorView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{colaborador.colaboradorFechaNacimiento}" sortBy="#{colaborador.colaboradorFechaNacimiento}" 
+							headerText="colaboradorFechaNacimiento">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{colaborador.colaboradorFechaNacimiento}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{colaborador.colaboradorFechaNacimiento}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{colaboradorView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{colaboradorView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedColaborador" value="#{colaborador}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

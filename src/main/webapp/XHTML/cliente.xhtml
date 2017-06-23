@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			
+			<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+			
+			
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelCliente" header="Cliente">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgClienteId" value="ClienteId"/>
+						 	<p:inputText id="txtClienteId" binding="#{clienteView.txtClienteId}">
+						 		<p:ajax update="panelCliente,msg,panelBotones" listener="#{clienteView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgClienteApellido" value=" ClienteApellido"/>
+							<p:inputText id="txtClienteApellido" disabled="true" binding="#{clienteView.txtClienteApellido}"/>
+													<h:outputText id="msgClienteBarrio" value=" ClienteBarrio"/>
+							<p:inputText id="txtClienteBarrio" disabled="true" binding="#{clienteView.txtClienteBarrio}"/>
+													<h:outputText id="msgClienteCorreoElctronico" value=" ClienteCorreoElctronico"/>
+							<p:inputText id="txtClienteCorreoElctronico" disabled="true" binding="#{clienteView.txtClienteCorreoElctronico}"/>
+													<h:outputText id="msgClienteDireccion" value=" ClienteDireccion"/>
+							<p:inputText id="txtClienteDireccion" disabled="true" binding="#{clienteView.txtClienteDireccion}"/>
+													<h:outputText id="msgClienteNombre" value=" ClienteNombre"/>
+							<p:inputText id="txtClienteNombre" disabled="true" binding="#{clienteView.txtClienteNombre}"/>
+													<h:outputText id="msgClienteNumeroCelular" value=" ClienteNumeroCelular"/>
+							<p:inputText id="txtClienteNumeroCelular" disabled="true" binding="#{clienteView.txtClienteNumeroCelular}"/>
+													<h:outputText id="msgClienteNumeroIdentificacion" value=" ClienteNumeroIdentificacion"/>
+							<p:inputText id="txtClienteNumeroIdentificacion" disabled="true" binding="#{clienteView.txtClienteNumeroIdentificacion}"/>
+													<h:outputText id="msgClienteNumeroTelefono" value=" ClienteNumeroTelefono"/>
+							<p:inputText id="txtClienteNumeroTelefono" disabled="true" binding="#{clienteView.txtClienteNumeroTelefono}"/>
+												
+																				<h:outputText id="msgClienteFechaCreacion" value=" ClienteFechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{clienteView.txtClienteFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaCreacion}"  />
+							</p:calendar>
+														<h:outputText id="msgClienteFechaModificacion" value=" ClienteFechaModificacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{clienteView.txtClienteFechaModificacion}" >
+								<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaModificacion}"  />
+							</p:calendar>
+														<h:outputText id="msgClienteFechaNacimiento" value=" ClienteFechaNacimiento"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{clienteView.txtClienteFechaNacimiento}" >
+								<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaNacimiento}"  />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{clienteView.btnSave}" disabled="true" value="Save" action="#{clienteView.action_save()}" update="panelCliente,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{clienteView.btnDelete}" disabled="true" value="Delete" action="#{clienteView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelCliente,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{clienteView.action_clear()}" update="panelCliente,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

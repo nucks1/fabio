@@ -1,0 +1,151 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableSalida" header="SalidaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{salidaView.data}" var="salida"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{salida.salidaId}" sortBy="#{salida.salidaId}" >
+										 <f:facet name="header">
+										<h:outputText value="salidaId"/>
+										</f:facet>
+										 <h:outputText value="#{salida.salidaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{salida.salidaFechaCreacion}" sortBy="#{salida.salidaFechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="SalidaFechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{salida.salidaFechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{salida.clienteId_Cliente}" sortBy="#{salida.clienteId_Cliente}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteId_Cliente"/>
+										</f:facet>
+										 <h:outputText value="#{salida.clienteId_Cliente}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{salida.colaboradorId_Colaborador}" sortBy="#{salida.colaboradorId_Colaborador}" >
+										 <f:facet name="header">
+										<h:outputText value="ColaboradorId_Colaborador"/>
+										</f:facet>
+										 <h:outputText value="#{salida.colaboradorId_Colaborador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{salida.miembroId_Miembro}" sortBy="#{salida.miembroId_Miembro}" >
+										 <f:facet name="header">
+										<h:outputText value="MiembroId_Miembro"/>
+										</f:facet>
+										 <h:outputText value="#{salida.miembroId_Miembro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{salida.productoId_Producto}" sortBy="#{salida.productoId_Producto}" >
+										 <f:facet name="header">
+										<h:outputText value="ProductoId_Producto"/>
+										</f:facet>
+										 <h:outputText value="#{salida.productoId_Producto}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{salida.servicioId_Servicio}" sortBy="#{salida.servicioId_Servicio}" >
+										 <f:facet name="header">
+										<h:outputText value="ServicioId_Servicio"/>
+										</f:facet>
+										 <h:outputText value="#{salida.servicioId_Servicio}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogSalida"
+										actionListener="#{salidaView.action_edit}">
+										<f:attribute name="selectedSalida" value="#{salida}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{salidaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedSalida" value="#{salida}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{salidaView.action_new()}" update=":dialogSalida" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogSalida" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{salidaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelSalida" header="Salida">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgSalidaId" value="SalidaId"/>
+									 <p:inputText id="txtSalidaId" binding="#{salidaView.txtSalidaId}">
+									 <p:ajax update=":dialogSalida" listener="#{salidaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgClienteId_Cliente" value=" ClienteId_Cliente"/>
+									<p:inputText id="txtClienteId_Cliente" disabled="true" binding="#{salidaView.txtClienteId_Cliente}"/>
+																		<h:outputText id="msgColaboradorId_Colaborador" value=" ColaboradorId_Colaborador"/>
+									<p:inputText id="txtColaboradorId_Colaborador" disabled="true" binding="#{salidaView.txtColaboradorId_Colaborador}"/>
+																		<h:outputText id="msgMiembroId_Miembro" value=" MiembroId_Miembro"/>
+									<p:inputText id="txtMiembroId_Miembro" disabled="true" binding="#{salidaView.txtMiembroId_Miembro}"/>
+																		<h:outputText id="msgProductoId_Producto" value=" ProductoId_Producto"/>
+									<p:inputText id="txtProductoId_Producto" disabled="true" binding="#{salidaView.txtProductoId_Producto}"/>
+																		<h:outputText id="msgServicioId_Servicio" value=" ServicioId_Servicio"/>
+									<p:inputText id="txtServicioId_Servicio" disabled="true" binding="#{salidaView.txtServicioId_Servicio}"/>
+																		
+																													<h:outputText id="msgSalidaFechaCreacion" value=" SalidaFechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{salidaView.txtSalidaFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{salidaView.listener_txtSalidaFechaCreacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{salidaView.btnSave}" value="Save" action="#{salidaView.action_save()}" update=":dialogSalida :frm:panelDataTableSalida" />
+									<p:commandButton id="btnClear" value="Clear" action="#{salidaView.action_clear()}" update=":dialogSalida" />
+									<p:commandButton id="btnExit" value="Exit" action="#{salidaView.action_closeDialog()}" update=":dialogSalida" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

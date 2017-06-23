@@ -1,0 +1,182 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+
+				<!-- Expired session -->
+				<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+					timeout="#{session.maxInactiveInterval * 1000}" />
+				<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+					header="Expired session" draggable="false" closable="false">
+					<h:outputText value="The session is finished" />
+					<input id="confirmBackToLogin" type="button" value="Sign in"
+						onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+				</p:dialog>
+
+				<h:form id="frm">
+
+					<p:panel id="panelDataTableProducto" header="ProductoData">
+						<p:growl id="men" />
+						<p:dataTable value="#{productoView.data}" var="producto"
+							paginator="true" rows="5">
+							<p:column filterBy="#{producto.productoId}"
+								sortBy="#{producto.productoId}">
+								<f:facet name="header">
+									<h:outputText value="productoId" />
+								</f:facet>
+								<h:outputText value="#{producto.productoId}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.productoBeneficios}"
+								sortBy="#{producto.productoBeneficios}">
+								<f:facet name="header">
+									<h:outputText value="ProductoBeneficios" />
+								</f:facet>
+								<h:outputText value="#{producto.productoBeneficios}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.productoCantidad}"
+								sortBy="#{producto.productoCantidad}">
+								<f:facet name="header">
+									<h:outputText value="ProductoCantidad" />
+								</f:facet>
+								<h:outputText value="#{producto.productoCantidad}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.productoFechaCrecaion}"
+								sortBy="#{producto.productoFechaCrecaion}">
+								<f:facet name="header">
+									<h:outputText value="ProductoFechaCrecaion" />
+								</f:facet>
+								<h:outputText value="#{producto.productoFechaCrecaion}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.productoFechaModificacion}"
+								sortBy="#{producto.productoFechaModificacion}">
+								<f:facet name="header">
+									<h:outputText value="ProductoFechaModificacion" />
+								</f:facet>
+								<h:outputText value="#{producto.productoFechaModificacion}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.productoImagen}"
+								sortBy="#{producto.productoImagen}">
+								<f:facet name="header">
+									<h:outputText value="ProductoImagen" />
+								</f:facet>
+								<h:outputText value="#{producto.productoImagen}" />
+							</p:column>
+
+							<p:column filterBy="#{producto.claseTipoId_ClaseTipo}"
+								sortBy="#{producto.claseTipoId_ClaseTipo}">
+								<f:facet name="header">
+									<h:outputText value="ClaseTipoId_ClaseTipo" />
+								</f:facet>
+								<h:outputText value="#{producto.claseTipoId_ClaseTipo}" />
+							</p:column>
+
+							<p:column headerText="Options">
+								<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+									update=":dialogProducto"
+									actionListener="#{productoView.action_edit}">
+									<f:attribute name="selectedProducto" value="#{producto}" />
+								</p:commandButton>
+								<p:commandButton id="btnDelete" title="Delete"
+									actionListener="#{productoView.action_delete_datatable}"
+									onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+									icon="ui-icon-trash" update="@form">
+									<f:attribute name="selectedProducto" value="#{producto}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="panelBoton">
+						<div align="center">
+							<p:commandButton id="btnNew" value="New"
+								action="#{productoView.action_new()}" update=":dialogProducto" />
+						</div>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogProducto" appendTo="@(body)" draggable="true"
+					closable="false" visible="#{productoView.showDialog}"
+					resizable="false" modal="true" width="500">
+					<h:form id="formDialog">
+						<p:messages id="msg" />
+						<p:panel id="panelProducto" header="Producto">
+							<h:panelGrid columns="2" id="panelGrid">
+								<h:outputText id="msgProductoId" value="ProductoId" />
+								<p:inputText id="txtProductoId"
+									binding="#{productoView.txtProductoId}">
+									<p:ajax update=":dialogProducto"
+										listener="#{productoView.listener_txtId}" />
+								</p:inputText>
+
+								<h:outputText id="msgProductoBeneficios"
+									value=" ProductoBeneficios" />
+								<p:inputText id="txtProductoBeneficios" disabled="true"
+									binding="#{productoView.txtProductoBeneficios}" />
+								<h:outputText id="msgProductoCantidad" value=" ProductoCantidad" />
+								<p:inputText id="txtProductoCantidad" disabled="true"
+									binding="#{productoView.txtProductoCantidad}" />
+								<h:outputText id="msgProductoImagen" value=" ProductoImagen" />
+								<p:inputText id="txtProductoImagen" disabled="true"
+									binding="#{productoView.txtProductoImagen}" />
+								<h:outputText id="msgClaseTipoId_ClaseTipo"
+									value=" ClaseTipoId_ClaseTipo" />
+								<p:inputText id="txtClaseTipoId_ClaseTipo" disabled="true"
+									binding="#{productoView.txtClaseTipoId_ClaseTipo}" />
+
+								<h:outputText id="msgProductoFechaCrecaion"
+									value=" ProductoFechaCrecaion" />
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{productoView.txtProductoFechaCrecaion}">
+									<p:ajax event="dateSelect"
+										listener="#{productoView.listener_txtProductoFechaCrecaion}" />
+								</p:calendar>
+								<h:outputText id="msgProductoFechaModificacion"
+									value=" ProductoFechaModificacion" />
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{productoView.txtProductoFechaModificacion}">
+									<p:ajax event="dateSelect"
+										listener="#{productoView.listener_txtProductoFechaModificacion}" />
+								</p:calendar>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave" binding="#{productoView.btnSave}"
+									value="Save" action="#{productoView.action_save()}"
+									update=":dialogProducto :frm:panelDataTableProducto" />
+								<p:commandButton id="btnClear" value="Clear"
+									action="#{productoView.action_clear()}"
+									update=":dialogProducto" />
+								<p:commandButton id="btnExit" value="Exit"
+									action="#{productoView.action_closeDialog()}"
+									update=":dialogProducto" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Puntos" table="puntos" schema="public" optimistic-lock="version">
+        <id name="puntosId" type="java.lang.Integer">
+            <column name="puntos_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="claseTipo" class="com.nuck.modelo.ClaseTipo" fetch="select">
+            <column name="pintos_clase_tipo_id" />
+        </many-to-one>
+        <property name="puntosPuntos" type="java.lang.Integer">
+            <column name="puntos_puntos" />
+        </property>
+    </class>
+</hibernate-mapping>

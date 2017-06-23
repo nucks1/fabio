@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14684246417150" configfile="/nuck_base/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/producto.xhtml" x="554" y="3826" id="pf14686252636180" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf14686252636191" inlinks="pf14686252636192" path="/XHTML/producto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/initialMenu.xhtml" x="338" y="3826" id="pf14686252636233" referenceLink="//@navigationRule.41/@fromViewId|" outlinks="pf14686252636192 pf14686252636234 pf14686252636235 pf14686252636236 pf14686252636237 pf14686252636238 pf14686252636239 pf146862526362310 pf146862526362311 pf146862526362312 pf146862526362313 pf146862526362314 pf146862526362315 pf146862526362316 pf146862526362317 pf146862526362318 pf146862526362319 pf146862526362320 pf146862526362321 pf146862526362322 pf146862526362323" inlinks="pf14686252636191 pf146862526362324 pf146862526362325 pf146862526362326 pf146862526362327 pf146862526362328 pf146862526362329 pf146862526362330 pf146862526362331 pf146862526362332 pf146862526362333 pf146862526362334 pf146862526362335 pf146862526362336 pf146862526362337 pf146862526362338 pf146862526362339 pf146862526362340 pf146862526362341" path="/XHTML/initialMenu.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/productoListDataTable.xhtml" x="122" y="178" id="pf146862526362342" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf146862526362324" inlinks="pf14686252636234" path="/XHTML/productoListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/productoListDataTableEditable.xhtml" x="122" y="562" id="pf146862526362343" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" outlinks="pf146862526362325" inlinks="pf14686252636235" path="/XHTML/productoListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/usuario.xhtml" x="122" y="946" id="pf146862526362444" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" outlinks="pf146862526362326" inlinks="pf14686252636236" path="/XHTML/usuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/usuarioListDataTable.xhtml" x="122" y="1330" id="pf146862526362445" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" outlinks="pf146862526362327" inlinks="pf14686252636237" path="/XHTML/usuarioListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/usuarioListDataTableEditable.xhtml" x="122" y="1714" id="pf146862526362446" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" outlinks="pf146862526362328" inlinks="pf14686252636238" path="/XHTML/usuarioListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/ingreso.xhtml" x="122" y="2098" id="pf146862526362447" referenceLink="//@navigationRule.15/@navigationCase.0/@toViewId|" outlinks="pf146862526362329" inlinks="pf14686252636239" path="/XHTML/ingreso.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/ingresoListDataTable.xhtml" x="122" y="2482" id="pf146862526362448" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" outlinks="pf146862526362330" inlinks="pf146862526362310" path="/XHTML/ingresoListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/ingresoListDataTableEditable.xhtml" x="122" y="2866" id="pf146862526362449" referenceLink="//@navigationRule.17/@navigationCase.0/@toViewId|" outlinks="pf146862526362331" inlinks="pf146862526362311" path="/XHTML/ingresoListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/miembro.xhtml" x="122" y="3250" id="pf146862526362450" referenceLink="//@navigationRule.21/@navigationCase.0/@toViewId|" inlinks="pf146862526362312" path="/XHTML/miembro.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/miembroListDataTable.xhtml" x="122" y="3634" id="pf146862526362451" referenceLink="//@navigationRule.22/@navigationCase.0/@toViewId|" outlinks="pf146862526362332" inlinks="pf146862526362313" path="/XHTML/miembroListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/miembroListDataTableEditable.xhtml" x="122" y="4018" id="pf146862526362452" referenceLink="//@navigationRule.23/@navigationCase.0/@toViewId|" inlinks="pf146862526362314" path="/XHTML/miembroListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/membresia.xhtml" x="122" y="4402" id="pf146862526362453" referenceLink="//@navigationRule.27/@navigationCase.0/@toViewId|" outlinks="pf146862526362333" inlinks="pf146862526362315" path="/XHTML/membresia.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/membresiaListDataTable.xhtml" x="122" y="4786" id="pf146862526362454" referenceLink="//@navigationRule.28/@navigationCase.0/@toViewId|" outlinks="pf146862526362334" inlinks="pf146862526362316" path="/XHTML/membresiaListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/membresiaListDataTableEditable.xhtml" x="122" y="5170" id="pf146862526362455" referenceLink="//@navigationRule.29/@navigationCase.0/@toViewId|" outlinks="pf146862526362335" inlinks="pf146862526362317" path="/XHTML/membresiaListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/consumo.xhtml" x="122" y="5554" id="pf146862526362456" referenceLink="//@navigationRule.33/@navigationCase.0/@toViewId|" outlinks="pf146862526362336" inlinks="pf146862526362318" path="/XHTML/consumo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/consumoListDataTable.xhtml" x="122" y="5938" id="pf146862526362457" referenceLink="//@navigationRule.34/@navigationCase.0/@toViewId|" outlinks="pf146862526362337" inlinks="pf146862526362319" path="/XHTML/consumoListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/consumoListDataTableEditable.xhtml" x="122" y="6322" id="pf146862526362458" referenceLink="//@navigationRule.35/@navigationCase.0/@toViewId|" outlinks="pf146862526362338" inlinks="pf146862526362320" path="/XHTML/consumoListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/servicio.xhtml" x="122" y="6706" id="pf146862526362459" referenceLink="//@navigationRule.39/@navigationCase.0/@toViewId|" outlinks="pf146862526362339" inlinks="pf146862526362321" path="/XHTML/servicio.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/servicioListDataTable.xhtml" x="122" y="7090" id="pf146862526362460" referenceLink="//@navigationRule.40/@navigationCase.0/@toViewId|" outlinks="pf146862526362340" inlinks="pf146862526362322" path="/XHTML/servicioListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="XHTML/servicioListDataTableEditable.xhtml" x="122" y="7474" id="pf146862526362461" referenceLink="//@navigationRule.41/@navigationCase.0/@toViewId|" outlinks="pf146862526362341" inlinks="pf146862526362323" path="/XHTML/servicioListDataTableEditable.xhtml"/>
+  <links id="pf14686252636191" target="pf14686252636233" source="pf14686252636180" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362324" target="pf14686252636233" source="pf146862526362342" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362325" target="pf14686252636233" source="pf146862526362343" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14686252636192" target="pf14686252636180" source="pf14686252636233" outcome="goProducto" redirect="true"/>
+  <links id="pf14686252636234" target="pf146862526362342" source="pf14686252636233" outcome="goProductoListDataTable" redirect="true"/>
+  <links id="pf14686252636235" target="pf146862526362343" source="pf14686252636233" outcome="goProductoListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362326" target="pf14686252636233" source="pf146862526362444" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362327" target="pf14686252636233" source="pf146862526362445" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362328" target="pf14686252636233" source="pf146862526362446" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14686252636236" target="pf146862526362444" source="pf14686252636233" outcome="goUsuario" redirect="true"/>
+  <links id="pf14686252636237" target="pf146862526362445" source="pf14686252636233" outcome="goUsuarioListDataTable" redirect="true"/>
+  <links id="pf14686252636238" target="pf146862526362446" source="pf14686252636233" outcome="goUsuarioListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362329" target="pf14686252636233" source="pf146862526362447" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362330" target="pf14686252636233" source="pf146862526362448" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362331" target="pf14686252636233" source="pf146862526362449" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14686252636239" target="pf146862526362447" source="pf14686252636233" outcome="goIngreso" redirect="true"/>
+  <links id="pf146862526362310" target="pf146862526362448" source="pf14686252636233" outcome="goIngresoListDataTable" redirect="true"/>
+  <links id="pf146862526362311" target="pf146862526362449" source="pf14686252636233" outcome="goIngresoListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362332" target="pf14686252636233" source="pf146862526362451" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362312" target="pf146862526362450" source="pf14686252636233" outcome="goMiembro" redirect="true"/>
+  <links id="pf146862526362313" target="pf146862526362451" source="pf14686252636233" outcome="goMiembroListDataTable" redirect="true"/>
+  <links id="pf146862526362314" target="pf146862526362452" source="pf14686252636233" outcome="goMiembroListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362333" target="pf14686252636233" source="pf146862526362453" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362334" target="pf14686252636233" source="pf146862526362454" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362335" target="pf14686252636233" source="pf146862526362455" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362315" target="pf146862526362453" source="pf14686252636233" outcome="goMembresia" redirect="true"/>
+  <links id="pf146862526362316" target="pf146862526362454" source="pf14686252636233" outcome="goMembresiaListDataTable" redirect="true"/>
+  <links id="pf146862526362317" target="pf146862526362455" source="pf14686252636233" outcome="goMembresiaListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362336" target="pf14686252636233" source="pf146862526362456" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362337" target="pf14686252636233" source="pf146862526362457" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362338" target="pf14686252636233" source="pf146862526362458" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362318" target="pf146862526362456" source="pf14686252636233" outcome="goConsumo" redirect="true"/>
+  <links id="pf146862526362319" target="pf146862526362457" source="pf14686252636233" outcome="goConsumoListDataTable" redirect="true"/>
+  <links id="pf146862526362320" target="pf146862526362458" source="pf14686252636233" outcome="goConsumoListDataTableEditable" redirect="true"/>
+  <links id="pf146862526362339" target="pf14686252636233" source="pf146862526362459" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362340" target="pf14686252636233" source="pf146862526362460" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362341" target="pf14686252636233" source="pf146862526362461" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf146862526362321" target="pf146862526362459" source="pf14686252636233" outcome="goServicio" redirect="true"/>
+  <links id="pf146862526362322" target="pf146862526362460" source="pf14686252636233" outcome="goServicioListDataTable" redirect="true"/>
+  <links id="pf146862526362323" target="pf146862526362461" source="pf14686252636233" outcome="goServicioListDataTableEditable" redirect="true"/>
+</pageflow:Pageflow>

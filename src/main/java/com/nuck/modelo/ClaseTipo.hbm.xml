@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.ClaseTipo" table="clase_tipo" schema="public" optimistic-lock="version">
+        <id name="claseTipoId" type="java.lang.Integer">
+            <column name="clase_tipo_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipo" class="com.nuck.modelo.Tipo" fetch="select">
+            <column name="clase_tipo_tipo_id" />
+        </many-to-one>
+        <property name="claseTipoDescripcion" type="java.lang.String">
+            <column name="clase_tipo_descripcion" length="45" />
+        </property>
+        <property name="claseTipoRef" type="java.lang.String">
+            <column name="clase_tipo_ref" length="20" />
+        </property>
+        <property name="claseTipoCostoEgreso" type="java.lang.Double">
+            <column name="clase_tipo_costo_egreso" precision="17" scale="17" />
+        </property>
+        <property name="claseTipoCostoIngreso" type="java.lang.Double">
+            <column name="clase_tipo_costo_ingreso" precision="17" scale="17" />
+        </property>
+        <property name="claseTipoPuntos" type="java.lang.Integer">
+            <column name="clase_tipo_puntos" />
+        </property>
+        <property name="claseTipoFechaCreacion" type="java.util.Date">
+            <column name="clase_tipo_fecha_creacion" length="29" />
+        </property>
+        <property name="claseTipoFechaModificacion" type="java.util.Date">
+            <column name="clase_tipo_fecha_modificacion" length="29" />
+        </property>
+        <set name="egresos" table="egreso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="egreso_clase_tipo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Egreso" />
+        </set>
+        <set name="productos" table="producto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="producto_clase_tipo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Producto" />
+        </set>
+        <set name="puntoses" table="puntos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pintos_clase_tipo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Puntos" />
+        </set>
+        <set name="servicios" table="servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="servicio_clase_tipo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Servicio" />
+        </set>
+    </class>
+</hibernate-mapping>

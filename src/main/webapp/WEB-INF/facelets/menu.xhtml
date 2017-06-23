@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<f:view>
+		<ui:composition>
+			<p:outputPanel styleClass="nuckPanel">
+				<h:form>
+					<div class="main ng-scope">
+						<p:outputPanel style="width: 100%">
+							<div class="container-fluid maker ng-scope">
+								<div class="row">
+									<div class="col-md-9 maker-right">
+										<div class="row preview-html">
+											<div class="col-md-12">
+												<div id="cssmenu">
+													<ul>
+														<li class="#{message.menuHomeActive ? 'active' : null}">
+															<p:commandLink value="Home" update="@all"
+																action="#{message.getMenuHome()}">
+																<f:param name="i" value="6" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuAdministracionActive ? 'active' : null}">
+															<p:commandLink value="Administración" update="@all"
+																rendered="#{message.adminUser()}"
+																action="#{message.getMenuAdministracion()}">
+																<f:param name="i" value="6" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuRecepcionActive? 'active' : null}">
+															<p:commandLink value="Lobby" update="@all"
+																rendered="#{message.recepcionUser()}"
+																action="#{message.getMenuRecepcion()}">
+																<f:param name="i" value="5" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuMiCuentaActive ? 'active' : null}">
+															<p:commandLink value="Mi cuenta" update="@all"
+																rendered="#{message.recepcionUser() || message.miembroUser()}"
+																action="#{message.getMenuMiCuenta()}">
+																<f:param name="i" value="6" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuMiMembresiaActive ? 'active' : null}">
+															<p:commandLink value="Mi membresia" update="@all"
+																rendered="#{message.recepcionUser() || message.miembroUser()}"
+																action="#{message.getMenuMembresia()}">
+																<f:param name="i" value="5" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuNuestrosServiciosActive ? 'active' : null}">
+															<p:commandLink value="Nuestros servicios" update="@all"
+																action="#{message.getNuestrosServicios()}">
+																<f:param name="i" value="6" />
+															</p:commandLink>
+														</li>
+														<li
+															class="#{message.menuContactoActive ? 'active' : null}">
+															<p:commandLink value="Contacto" update="@all"
+																action="#{message.getContacto()}">
+																<f:param name="i" value="6" />
+															</p:commandLink>
+														</li>
+													</ul>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /row -->
+							</div>
+						</p:outputPanel>
+					</div>
+				</h:form>
+			</p:outputPanel>
+		</ui:composition>
+	</f:view>
+</h:body>
+</html>

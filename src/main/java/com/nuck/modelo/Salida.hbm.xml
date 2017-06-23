@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Salida" table="salida" schema="public" optimistic-lock="version">
+        <id name="salidaId" type="java.lang.Integer">
+            <column name="salida_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="cliente" class="com.nuck.modelo.Cliente" fetch="select">
+            <column name="salida_cliente_id" />
+        </many-to-one>
+        <many-to-one name="colaborador" class="com.nuck.modelo.Colaborador" fetch="select">
+            <column name="entrada_colaborador" />
+        </many-to-one>
+        <many-to-one name="miembro" class="com.nuck.modelo.Miembro" fetch="select">
+            <column name="salida_miembro_id" />
+        </many-to-one>
+        <many-to-one name="producto" class="com.nuck.modelo.Producto" fetch="select">
+            <column name="salida_producto_id" />
+        </many-to-one>
+        <many-to-one name="servicio" class="com.nuck.modelo.Servicio" fetch="select">
+            <column name="salida_servico_id" />
+        </many-to-one>
+        <property name="salidaFechaCreacion" type="java.util.Date">
+            <column name="salida_fecha_creacion" length="29" />
+        </property>
+    </class>
+</hibernate-mapping>

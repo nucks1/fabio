@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Consumo" table="consumo" schema="public" optimistic-lock="version">
+        <id name="consumoId" type="java.lang.Integer">
+            <column name="consumo_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="consumoTotalIngreso" type="java.lang.Double">
+            <column name="consumo_total_ingreso" precision="17" scale="17" />
+        </property>
+        <property name="consumoFecha" type="java.util.Date">
+            <column name="consumo_fecha" length="29" />
+        </property>
+        <set name="ingresos" table="ingreso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ingreso_consumo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Ingreso" />
+        </set>
+        <set name="membresias" table="membresia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="membresia_comsumo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Membresia" />
+        </set>
+    </class>
+</hibernate-mapping>

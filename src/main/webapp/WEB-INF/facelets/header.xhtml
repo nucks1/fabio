@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<f:view>
+		<ui:composition>
+			<p:outputPanel styleClass="nuckPanel" style="height: 100px;">
+
+				<div id="div1">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/header.png" />
+				</div>
+				<div id="div2">
+					<p:outputPanel>
+						<h:form rendered="#{message.access == null}">
+							<p:growl id="msgGrowl" life="3000" sticky="true" />
+							<h:panelGrid columns="1">
+								<p:inputText value="#{message.usuario}"
+									style="width: 67%; height: 22px" placeholder="Usuario" />
+								<p:password value="#{message.passwd}"
+									style="width: 67%; height: 22px" placeholder="Contraseña" />
+								<p:commandButton value="Iniciar sesión"
+									action="#{message.login()}" update="@all"
+									style="width: 67%; height: 30px" />
+							</h:panelGrid>
+						</h:form>
+						<p:outputPanel>
+							<h:form rendered="#{message.access != null}">
+								<h:panelGrid columns="1">
+									<h:panelGrid columns="2">
+										<p:outputLabel style="font-weight: bold; font-size: 14px;"
+											value="Usuario:" />
+										<p:outputLabel style="font-size: 14px;"
+											value=" #{message.miembroDTO.miembroNombre} #{message.miembroDTO.miembroApellido}" />
+									</h:panelGrid>
+									<p:commandButton value="Cerrar sesión" update="@all"
+										action="#{message.logout()}"
+										style="width: 120px; height: 30px; text-align: center;" />
+								</h:panelGrid>
+							</h:form>
+						</p:outputPanel>
+					</p:outputPanel>
+				</div>
+			</p:outputPanel>
+		</ui:composition>
+	</f:view>
+</h:body>
+</html>

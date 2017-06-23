@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<f:view>
+		<ui:composition>
+			<p:panel styleClass="nuckPanel">
+				<h1>LogoCode</h1>
+				<p>Solutions for a marketing or informational website.</p>
+				<div id="div2">
+					<h:form>
+						<p:growl id="msgGrowl" />
+						<h:panelGrid columns="1">
+							<p:inputText value="#{message.usuario}"
+								style="width: 70%; height: 22px" placeholder="Usuario" />
+							<p:password value="#{message.passwd}"
+								style="width: 70%; height: 22px" placeholder="Contraseña" />
+							<p:commandButton value="Iniciar sesión" action="#{message.login}"
+								update="msgGrowl" style="width: 70%; height: 22px" />
+						</h:panelGrid>
+					</h:form>
+				</div>
+			</p:panel>
+		</ui:composition>
+	</f:view>
+</h:body>
+</html>

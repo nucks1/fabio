@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+			
+			<!-- Expired session -->
+				<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+					timeout="#{session.maxInactiveInterval * 1000}" />
+				<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+					header="Expired session" draggable="false" closable="false">
+					<h:outputText value="The session is finished" />
+					<input id="confirmBackToLogin" type="button" value="Sign in"
+						onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.xhtml';" />
+				</p:dialog>
+
+				
+				<p:outputPanel id="membresia-escalafon-panel" styleClass="nuckPanel" style="padding: 20px;">
+				
+					<h:form id="frm3" style="font-size:small; font-family:Arial;">
+						<p:tabMenu activeIndex="#{param.i}">
+							<p:menuitem value="Historial"
+								action="/XHTML/membresiaRegistro.xhtml?i=0"
+								icon="fa fa-th-list">
+								<f:param name="i" value="0" />
+							</p:menuitem>
+							<p:menuitem value="Nivel de Descuento"
+								action="/XHTML/membresiaEscalafon.xhtml?i=1"
+								icon="fa fa-sitemap">
+								<f:param name="i" value="1" />
+							</p:menuitem>
+						</p:tabMenu>
+					</h:form>
+				
+					<br/>
+					<h:form id="frmTree" style="font-size:small; font-family:Arial;">
+						<p:tree value="#{membresiaEscalafonView.tempMembresiasTree}" var="membresia" 
+							orientation="horizontal">
+							<p:treeNode>
+								<h:panelGrid columns="3">
+									<h:outputText value="#{membresia.miembroDTO.miembroNombre}" />
+							            &#160;
+							            <h:outputText
+										value="#{membresia.miembroDTO.miembroApellido}" />
+								</h:panelGrid>
+								<p:outputPanel
+									rendered="#{membresia.membresiaNivel == 0 ? true : false}">
+									<h:outputText value="Descuento: " />
+									<h:outputText value="#{membresia.membresiaPorcentajeDescuento}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</p:outputPanel>
+								<p:outputPanel
+									rendered="#{membresia.membresiaNivel > 0 ? true : false}">
+									<h:outputText value="Niverl #{membresia.membresiaNivel}: " />
+									<h:outputText
+										value="#{membresia.membresiaNivel == 1 ? 0.15 :
+							            					   membresia.membresiaNivel == 2 ? 0.05 :
+							            					   membresia.membresiaNivel == 3 ? 0.03 : null}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</p:outputPanel>
+							</p:treeNode>
+						</p:tree>
+					</h:form>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

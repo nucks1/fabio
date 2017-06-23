@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<ui:include src="/XHTML/recepcionMenu.xhtml" />
+				<br/>
+				<p:outputPanel styleClass="nuckPanel" style="marggin-top: 0px; padding-left: 20px; padding-right: 20px;">
+					<h:form id="frm2" rendered="#{message.recepcionUser()}">
+						<p:dataTable var="salida" value="#{salidaView.data}">
+							<f:facet name="header">
+								<h:panelGrid columns="1" styleClass="logoDataTable">
+									<h:panelGrid columns="2">
+										<p:outputPanel style="text-align: left;">
+											<p:commandLink
+												disabled="#{salidaView.pager.fromCounter == salidaView.pager.maxResultsTop}"
+												action="#{salidaView.pager.action_go_fast_backward()}"
+												update=":frm2">
+												<i class="fa fa-fast-backward" />
+											</p:commandLink>
+												&#160;
+													<p:commandLink
+												disabled="#{salidaView.pager.fromCounter == salidaView.pager.maxResultsTop}"
+												action="#{salidaView.pager.action_go_backward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-left" />
+											</p:commandLink>
+												&#160;
+												<p:commandLink
+												disabled="#{salidaView.pager.toCounter >= salidaView.pager.numberOfRecords}"
+												action="#{salidaView.pager.action_go_forward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-right" />
+											</p:commandLink>
+												&#160;
+												<p:commandLink
+												disabled="#{salidaView.pager.toCounter >= salidaView.pager.numberOfRecords}"
+												action="#{salidaView.pager.action_go_fast_forward()}"
+												update=":frm2">
+												<i class="fa fa-fast-forward" />
+											</p:commandLink>
+										</p:outputPanel>
+										<p:outputPanel style="text-align: right;">
+											<p:commandLink action="#{salidaView.pager.action_reload()}"
+												update=":frm2">
+												<i class="fa fa-refresh" />
+											</p:commandLink>
+												&#160;	
+												<p:inputText styleClass="empty" id="iconified"
+												placeholder="&#xF002;" value="#{salidaView.pager.keyWord}"
+												onchange="document.getElementById('searchButton').click();" />
+											<p:commandButton id="searchButton"
+												style="padding-top:-15px; display: none;"
+												action="#{salidaView.pager.action_search()}" update=":frm2" />
+											<p:commandLink action="#{salidaView.pager.action_search()}"
+												update=":frm2">
+												<i class="fa fa-arrow-right" />
+											</p:commandLink>
+										</p:outputPanel>
+									</h:panelGrid>
+								</h:panelGrid>
+							</f:facet>
+							<p:column style="width:16px">
+								<p:rowToggler />
+							</p:column>
+							<p:column headerText="Nombre">
+								<p:outputLabel value="#{salida.nombre}" />
+							</p:column>
+
+							<p:rowExpansion >
+								<p:messages id="msg" closable="true"/>
+								<p:outputPanel id="panelExpansion">
+									<p:dataTable var="servicio" value="#{salida.entrada}"
+										id="servicioTable" style="padding: 10px;">
+										<f:facet name="header">
+											<h:outputText value="Servicios en Curso" />
+										</f:facet>
+										<p:column headerText="Finalizar Servicio">
+											<p:selectBooleanCheckbox id="chkboxFinalizado"
+												value="#{servicio.servicioDTO.claseTipoDTO.finalizado}"
+												rendered="#{servicio.servicioDTO != null}"
+												disabled="#{servicio.servicioDTO.claseTipoDTO.finalizado}">
+												<p:ajax event="change"
+													update=":#{p:component('chkboxFinalizado')} 
+														:#{p:component('frm2')}"
+													listener="#{salidaView.action_create(servicio)}" />
+											</p:selectBooleanCheckbox>
+										</p:column>
+										<p:column headerText="Nombre">
+											<h:outputText
+												value="#{servicio.servicioDTO.claseTipoDTO.claseTipoDescripcion}" />
+										</p:column>
+
+										<p:column headerText="Linea Cosmetica">
+											<h:outputText
+												value="#{servicio.servicioDTO.servicioBeneficios}" />
+										</p:column>
+
+										<p:column headerText="Valor">
+											<h:outputText
+												value="#{servicio.servicioDTO.claseTipoDTO.claseTipoCostoIngreso}">
+												<f:convertNumber type="currency" currencySymbol="$" />
+											</h:outputText>
+										</p:column>
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total"
+													style="text-align:right" />
+												<p:column colspan="4" style="text-align:left">
+													<f:facet name="footer">
+														<h:outputText value="#{salida.total}">
+															<f:convertNumber type="currency" currencySymbol="$" />
+														</h:outputText>
+													</f:facet>
+												</p:column>
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</p:outputPanel>
+							</p:rowExpansion>
+						</p:dataTable>
+					</h:form>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

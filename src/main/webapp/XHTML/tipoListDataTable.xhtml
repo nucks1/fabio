@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipo" header="TipoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoView.data}" var="tipo"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipo.tipoId}" sortBy="#{tipo.tipoId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoId"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipo.tipoClase}" sortBy="#{tipo.tipoClase}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoClase"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoClase}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipo.tipoDescripcion}" sortBy="#{tipo.tipoDescripcion}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoDescripcion"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoDescripcion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipo.tipoFechaCreacrion}" sortBy="#{tipo.tipoFechaCreacrion}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoFechaCreacrion"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoFechaCreacrion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipo.tipoFechaModificacion}" sortBy="#{tipo.tipoFechaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoFechaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoFechaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipo.tipoRef}" sortBy="#{tipo.tipoRef}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoRef"/>
+										</f:facet>
+										 <h:outputText value="#{tipo.tipoRef}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipo"
+										actionListener="#{tipoView.action_edit}">
+										<f:attribute name="selectedTipo" value="#{tipo}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipo" value="#{tipo}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoView.action_new()}" update=":dialogTipo" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipo" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipo" header="Tipo">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoId" value="TipoId"/>
+									 <p:inputText id="txtTipoId" binding="#{tipoView.txtTipoId}">
+									 <p:ajax update=":dialogTipo" listener="#{tipoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgTipoClase" value=" TipoClase"/>
+									<p:inputText id="txtTipoClase" disabled="true" binding="#{tipoView.txtTipoClase}"/>
+																		<h:outputText id="msgTipoDescripcion" value=" TipoDescripcion"/>
+									<p:inputText id="txtTipoDescripcion" disabled="true" binding="#{tipoView.txtTipoDescripcion}"/>
+																		<h:outputText id="msgTipoRef" value=" TipoRef"/>
+									<p:inputText id="txtTipoRef" disabled="true" binding="#{tipoView.txtTipoRef}"/>
+																		
+																													<h:outputText id="msgTipoFechaCreacrion" value=" TipoFechaCreacrion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoView.txtTipoFechaCreacrion}" >
+										<p:ajax event="dateSelect" listener="#{tipoView.listener_txtTipoFechaCreacrion}" />
+										</p:calendar>
+																				<h:outputText id="msgTipoFechaModificacion" value=" TipoFechaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoView.txtTipoFechaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoView.listener_txtTipoFechaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoView.btnSave}" value="Save" action="#{tipoView.action_save()}" update=":dialogTipo :frm:panelDataTableTipo" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoView.action_clear()}" update=":dialogTipo" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoView.action_closeDialog()}" update=":dialogTipo" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

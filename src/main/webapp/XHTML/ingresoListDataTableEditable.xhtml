@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="IngresoData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{ingresoView.data}" var="ingreso"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{ingresoView.rowEventListener}" />
+					
+															<p:column filterBy="#{ingreso.ingresoId}" sortBy="#{ingreso.ingresoId}" headerText="ingresoId">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{ingreso.ingresoId}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{ingreso.ingresoId}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{ingreso.consumoId_Consumo}" sortBy="#{ingreso.consumoId_Consumo}" 
+							headerText="consumoId_Consumo">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{ingreso.consumoId_Consumo}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{ingreso.consumoId_Consumo}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{ingreso.miembroId_Miembro}" sortBy="#{ingreso.miembroId_Miembro}" 
+							headerText="miembroId_Miembro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{ingreso.miembroId_Miembro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{ingreso.miembroId_Miembro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{ingreso.productoId_Producto}" sortBy="#{ingreso.productoId_Producto}" 
+							headerText="productoId_Producto">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{ingreso.productoId_Producto}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{ingreso.productoId_Producto}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{ingreso.servicioId_Servicio}" sortBy="#{ingreso.servicioId_Servicio}" 
+							headerText="servicioId_Servicio">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{ingreso.servicioId_Servicio}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{ingreso.servicioId_Servicio}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{ingreso.ingresoFecha}" sortBy="#{ingreso.ingresoFecha}" 
+							headerText="ingresoFecha">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{ingreso.ingresoFecha}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{ingreso.ingresoFecha}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{ingresoView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{ingresoView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedIngreso" value="#{ingreso}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

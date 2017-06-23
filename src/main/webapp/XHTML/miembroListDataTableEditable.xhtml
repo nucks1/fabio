@@ -1,0 +1,281 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="MiembroData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{miembroView.data}" var="miembro"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{miembroView.rowEventListener}" />
+					
+															<p:column filterBy="#{miembro.miembroId}" sortBy="#{miembro.miembroId}" headerText="miembroId">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{miembro.miembroId}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{miembro.miembroId}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{miembro.miembroApellido}" sortBy="#{miembro.miembroApellido}" 
+							headerText="miembroApellido">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroApellido}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroApellido}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroBarrio}" sortBy="#{miembro.miembroBarrio}" 
+							headerText="miembroBarrio">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroBarrio}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroBarrio}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroCorreoElctronico}" sortBy="#{miembro.miembroCorreoElctronico}" 
+							headerText="miembroCorreoElctronico">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroCorreoElctronico}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroCorreoElctronico}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroDireccion}" sortBy="#{miembro.miembroDireccion}" 
+							headerText="miembroDireccion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroDireccion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroDireccion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroNombre}" sortBy="#{miembro.miembroNombre}" 
+							headerText="miembroNombre">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroNombre}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroNombre}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroNumeroCelular}" sortBy="#{miembro.miembroNumeroCelular}" 
+							headerText="miembroNumeroCelular">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroNumeroCelular}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroNumeroCelular}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroNumeroIdentificacion}" sortBy="#{miembro.miembroNumeroIdentificacion}" 
+							headerText="miembroNumeroIdentificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroNumeroIdentificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroNumeroIdentificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.miembroNumeroTelefono}" sortBy="#{miembro.miembroNumeroTelefono}" 
+							headerText="miembroNumeroTelefono">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroNumeroTelefono}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.miembroNumeroTelefono}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{miembro.usuarioId_Usuario}" sortBy="#{miembro.usuarioId_Usuario}" 
+							headerText="usuarioId_Usuario">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.usuarioId_Usuario}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{miembro.usuarioId_Usuario}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{miembro.miembroFechaCreacion}" sortBy="#{miembro.miembroFechaCreacion}" 
+							headerText="miembroFechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroFechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{miembro.miembroFechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{miembroView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{miembro.miembroFechaModificacion}" sortBy="#{miembro.miembroFechaModificacion}" 
+							headerText="miembroFechaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroFechaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{miembro.miembroFechaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{miembroView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{miembro.miembroFechaNacimiento}" sortBy="#{miembro.miembroFechaNacimiento}" 
+							headerText="miembroFechaNacimiento">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{miembro.miembroFechaNacimiento}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{miembro.miembroFechaNacimiento}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{miembroView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{miembroView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedMiembro" value="#{miembro}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

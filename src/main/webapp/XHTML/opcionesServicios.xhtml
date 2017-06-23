@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:logo="http://java.sun.com/jsf/composite/logo">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript">
+		$('#iconified').on('keyup', function() {
+			var input = $(this);
+			if (input.val().length === 0) {
+				input.addClass('empty');
+			} else {
+				input.removeClass('empty');
+			}
+		});
+	</script>
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<ui:include src="/XHTML/opcionesMenu.xhtml" />
+				<p:outputPanel styleClass="nuckPanel"
+					style="padding-left: 20px; padding-right: 20px;">
+					<br />
+					<h:form id="form" style="padding: 20px;"
+						rendered="#{message.adminUser()}">
+						<p:messages id="msg" />
+						<p:dataTable id="tabla" value="#{servicioView.dataFrom}"
+							var="servicio" scrollable="true" scrollHeight="250"
+							editable="true">
+
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{servicioView.rowEventListener}" />
+								
+							<p:column headerText="Nombre Servicio"  sortBy="#{servicio.claseTipoDTO.claseTipoDescripcion}">
+
+								<p:cellEditor>
+
+									<f:facet name="output">
+										<h:outputText value="#{servicio.claseTipoDTO.claseTipoDescripcion}" />
+									</f:facet>
+
+									<f:facet name="input">
+										<p:inputText value="#{servicio.claseTipoDTO.claseTipoDescripcion}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>	
+
+							<p:column headerText="Valor Servicio" sortBy="#{servicio.claseTipoDTO.claseTipoCostoIngreso}">
+
+								<p:cellEditor>
+
+									<f:facet name="output">
+										<h:outputText value="#{servicio.claseTipoDTO.claseTipoCostoIngreso}" >
+											<f:convertNumber type="currency" currencySymbol="$" />
+										</h:outputText>
+									</f:facet>
+
+									<f:facet name="input">
+										<p:inputText value="#{servicio.claseTipoDTO.claseTipoCostoIngreso}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Editar" style="width:32px">
+								<p:rowEditor/>
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

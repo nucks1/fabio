@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Colaborador" table="colaborador" schema="public" optimistic-lock="version">
+        <id name="colaboradorId" type="java.lang.Integer">
+            <column name="colaborador_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuario" class="com.nuck.modelo.Usuario" fetch="select">
+            <column name="colaborador_login_id" />
+        </many-to-one>
+        <property name="colaboradorNombre" type="java.lang.String">
+            <column name="colaborador_nombre" length="45" not-null="true" />
+        </property>
+        <property name="colaboradorApellido" type="java.lang.String">
+            <column name="colaborador_apellido" length="45" not-null="true" />
+        </property>
+        <property name="colaboradorNumeroIdentificacion" type="java.lang.String">
+            <column name="colaborador_numero_identificacion" length="20" not-null="true" />
+        </property>
+        <property name="colaboradorNumeroCelular" type="java.lang.String">
+            <column name="colaborador_numero_celular" length="20" not-null="true" />
+        </property>
+        <property name="colaboradorNumeroTelefono" type="java.lang.String">
+            <column name="colaborador_numero_telefono" length="20" />
+        </property>
+        <property name="colaboradorDireccion" type="java.lang.String">
+            <column name="colaborador_direccion" length="100" not-null="true" />
+        </property>
+        <property name="colaboradorBarrio" type="java.lang.String">
+            <column name="colaborador_barrio" length="50" not-null="true" />
+        </property>
+        <property name="colaboradorCorreoElctronico" type="java.lang.String">
+            <column name="colaborador_correo_elctronico" length="50" />
+        </property>
+        <property name="colaboradorFechaNacimiento" type="java.util.Date">
+            <column name="colaborador_fecha_nacimiento" length="13" />
+        </property>
+        <property name="colaboradorFechaCreacion" type="java.util.Date">
+            <column name="colaborador_fecha_creacion" length="29" />
+        </property>
+        <property name="colaboradorFechaModificacion" type="java.util.Date">
+            <column name="colaborador_fecha_modificacion" length="29" />
+        </property>
+        <set name="colaboradorServicios" table="colaborador_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="colaborador_id" not-null="true" />
+            </key>
+            <one-to-many class="com.nuck.modelo.ColaboradorServicio" />
+        </set>
+        <set name="salidas" table="salida" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="entrada_colaborador" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Salida" />
+        </set>
+        <set name="entradas" table="entrada" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="entrada_colaborador" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Entrada" />
+        </set>
+    </class>
+</hibernate-mapping>

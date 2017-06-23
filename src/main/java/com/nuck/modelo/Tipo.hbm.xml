@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Tipo" table="tipo" schema="public" optimistic-lock="version">
+        <id name="tipoId" type="java.lang.Integer">
+            <column name="tipo_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="tipoDescripcion" type="java.lang.String">
+            <column name="tipo_descripcion" length="200" />
+        </property>
+        <property name="tipoClase" type="java.lang.String">
+            <column name="tipo_clase" length="1" />
+        </property>
+        <property name="tipoRef" type="java.lang.String">
+            <column name="tipo_ref" length="20" />
+        </property>
+        <property name="tipoFechaCreacrion" type="java.util.Date">
+            <column name="tipo_fecha_creacrion" length="29" />
+        </property>
+        <property name="tipoFechaModificacion" type="java.util.Date">
+            <column name="tipo_fecha_modificacion" length="29" />
+        </property>
+        <set name="claseTipos" table="clase_tipo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="clase_tipo_tipo_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.ClaseTipo" />
+        </set>
+    </class>
+</hibernate-mapping>

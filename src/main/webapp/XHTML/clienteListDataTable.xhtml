@@ -1,0 +1,202 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+					
+					<!-- Expired session -->
+					<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog modal="true" widgetVar="sessionTimeOutDialog" header="Expired session"  draggable="false" closable="false">  
+	   					<h:outputText value="The session is finished" />
+	                 	<input id="confirmBackToLogin" 
+	                 		type="button" 
+	                 		value="Sign in"
+	                    	onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />   
+					</p:dialog>
+					
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableCliente" header="ClienteData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{clienteView.data}" var="cliente"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{cliente.clienteId}" sortBy="#{cliente.clienteId}" >
+										 <f:facet name="header">
+										<h:outputText value="clienteId"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{cliente.clienteApellido}" sortBy="#{cliente.clienteApellido}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteApellido"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteApellido}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteBarrio}" sortBy="#{cliente.clienteBarrio}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteBarrio"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteBarrio}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteCorreoElctronico}" sortBy="#{cliente.clienteCorreoElctronico}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteCorreoElctronico"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteCorreoElctronico}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteDireccion}" sortBy="#{cliente.clienteDireccion}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteDireccion"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteDireccion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteFechaCreacion}" sortBy="#{cliente.clienteFechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteFechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteFechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteFechaModificacion}" sortBy="#{cliente.clienteFechaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteFechaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteFechaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteFechaNacimiento}" sortBy="#{cliente.clienteFechaNacimiento}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteFechaNacimiento"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteFechaNacimiento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteNombre}" sortBy="#{cliente.clienteNombre}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteNombre"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteNombre}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteNumeroCelular}" sortBy="#{cliente.clienteNumeroCelular}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteNumeroCelular"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteNumeroCelular}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteNumeroIdentificacion}" sortBy="#{cliente.clienteNumeroIdentificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteNumeroIdentificacion"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteNumeroIdentificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{cliente.clienteNumeroTelefono}" sortBy="#{cliente.clienteNumeroTelefono}" >
+										 <f:facet name="header">
+										<h:outputText value="ClienteNumeroTelefono"/>
+										</f:facet>
+										 <h:outputText value="#{cliente.clienteNumeroTelefono}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogCliente"
+										actionListener="#{clienteView.action_edit}">
+										<f:attribute name="selectedCliente" value="#{cliente}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{clienteView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedCliente" value="#{cliente}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{clienteView.action_new()}" update=":dialogCliente" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogCliente" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{clienteView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelCliente" header="Cliente">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgClienteId" value="ClienteId"/>
+									 <p:inputText id="txtClienteId" binding="#{clienteView.txtClienteId}">
+									 <p:ajax update=":dialogCliente" listener="#{clienteView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgClienteApellido" value=" ClienteApellido"/>
+									<p:inputText id="txtClienteApellido" disabled="true" binding="#{clienteView.txtClienteApellido}"/>
+																		<h:outputText id="msgClienteBarrio" value=" ClienteBarrio"/>
+									<p:inputText id="txtClienteBarrio" disabled="true" binding="#{clienteView.txtClienteBarrio}"/>
+																		<h:outputText id="msgClienteCorreoElctronico" value=" ClienteCorreoElctronico"/>
+									<p:inputText id="txtClienteCorreoElctronico" disabled="true" binding="#{clienteView.txtClienteCorreoElctronico}"/>
+																		<h:outputText id="msgClienteDireccion" value=" ClienteDireccion"/>
+									<p:inputText id="txtClienteDireccion" disabled="true" binding="#{clienteView.txtClienteDireccion}"/>
+																		<h:outputText id="msgClienteNombre" value=" ClienteNombre"/>
+									<p:inputText id="txtClienteNombre" disabled="true" binding="#{clienteView.txtClienteNombre}"/>
+																		<h:outputText id="msgClienteNumeroCelular" value=" ClienteNumeroCelular"/>
+									<p:inputText id="txtClienteNumeroCelular" disabled="true" binding="#{clienteView.txtClienteNumeroCelular}"/>
+																		<h:outputText id="msgClienteNumeroIdentificacion" value=" ClienteNumeroIdentificacion"/>
+									<p:inputText id="txtClienteNumeroIdentificacion" disabled="true" binding="#{clienteView.txtClienteNumeroIdentificacion}"/>
+																		<h:outputText id="msgClienteNumeroTelefono" value=" ClienteNumeroTelefono"/>
+									<p:inputText id="txtClienteNumeroTelefono" disabled="true" binding="#{clienteView.txtClienteNumeroTelefono}"/>
+																		
+																													<h:outputText id="msgClienteFechaCreacion" value=" ClienteFechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{clienteView.txtClienteFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgClienteFechaModificacion" value=" ClienteFechaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{clienteView.txtClienteFechaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaModificacion}" />
+										</p:calendar>
+																				<h:outputText id="msgClienteFechaNacimiento" value=" ClienteFechaNacimiento"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{clienteView.txtClienteFechaNacimiento}" >
+										<p:ajax event="dateSelect" listener="#{clienteView.listener_txtClienteFechaNacimiento}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{clienteView.btnSave}" value="Save" action="#{clienteView.action_save()}" update=":dialogCliente :frm:panelDataTableCliente" />
+									<p:commandButton id="btnClear" value="Clear" action="#{clienteView.action_clear()}" update=":dialogCliente" />
+									<p:commandButton id="btnExit" value="Exit" action="#{clienteView.action_closeDialog()}" update=":dialogCliente" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

@@ -1,0 +1,343 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<script type="text/javascript">
+		$('#iconified').on('keyup', function() {
+		    var input = $(this);
+		    if(input.val().length === 0) {
+		        input.addClass('empty');
+		    } else {
+		        input.removeClass('empty');
+		    }
+		});
+	</script>
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<ui:include src="/XHTML/opcionesMenu.xhtml" />
+				<br/>
+				<p:outputPanel styleClass="nuckPanel" style="marggin-top: 0px; padding-left: 20px; padding-right: 20px;">
+					<h:form id="frm" rendered="#{message.adminUser()}">
+						<p:treeTable value="#{membresiaView.membresias}" var="membresia" 
+							id="table" 
+							rowStyleClass="#{membresia.membresiaNivel == 0 ? 'level4-color' :
+											 membresia.membresiaNivel == 1 ? 'level1-color' : 
+											 membresia.membresiaNivel == 2 ? 'level2-color' : 
+											 membresia.membresiaNivel == 3 ? 'level3-color' : null}">
+							<f:facet name="header">
+								<h:panelGrid columns="1" styleClass="logoDataTable">
+									<p:outputPanel styleClass="datatable-menu-item">
+										<p:commandButton action="#{miembroView.action_new_miembro()}"
+											update=":dialogNuevoMiembro" value="Nuevo" />
+									</p:outputPanel>
+									<h:panelGrid columns="2">
+										<p:outputPanel style="text-align: left;">
+											<p:commandLink
+												disabled="#{membresiaView.fromCounter == membresiaView.maxResultsTop}"
+												actionListener="#{membresiaView.action_go_backward()}"
+												update=":frm">
+												<i class="fa fa-chevron-left" />
+											</p:commandLink>
+											&#160;
+											<p:commandLink
+												disabled="#{membresiaView.toCounter >= membresiaView.numeroDeMembresias}"
+												actionListener="#{membresiaView.action_go_forward()}"
+												update=":frm">
+												<i class="fa fa-chevron-right" />
+											</p:commandLink>
+											&#160;
+											<p:commandLink
+												disabled="#{membresiaView.toCounter >= membresiaView.numeroDeMembresias}"
+												actionListener="#{membresiaView.action_go_fast_forward()}"
+												update=":frm">
+												<i class="fa fa-fast-forward" />
+											</p:commandLink>
+										</p:outputPanel>
+										<p:outputPanel style="text-align: right;">
+											<p:commandLink action="#{membresiaView.reload()}"
+												update=":frm">
+												<i class="fa fa-refresh" />
+											</p:commandLink>
+											&#160;	
+											<p:inputText styleClass="empty" id="iconified"
+												placeholder="&#xF002;" value="#{membresiaView.palabra}"
+												onchange="document.getElementById('searchButton').click();" />
+											<p:commandButton id="searchButton"
+												style="padding-top:-15px; display: none;"
+												action="#{membresiaView.buscar()}" update=":frm" />
+											<p:commandLink action="#{membresiaView.buscar()}"
+												update=":frm">
+												<i class="fa fa-arrow-right" />
+											</p:commandLink>
+										</p:outputPanel>
+									</h:panelGrid>
+								</h:panelGrid>
+							</f:facet>
+							<p:column headerText="Vista de arbol" style="text-align: center;">
+								<p:selectBooleanCheckbox label="Select"
+									value="#{membresiaView.tree}"
+									rendered="#{membresia.membresiaNivel == 0 ? true : false}"
+									style="text-align: right;">
+									<p:ajax update=":dialogTree"
+										listener="#{membresiaView.action_showDialog_tree(membresia)}" />
+								</p:selectBooleanCheckbox>
+							</p:column>
+							<p:column headerText="Cédula" >
+								<h:outputText
+									value="#{membresia.miembroDTO.miembroNumeroIdentificacion}" />
+							</p:column>
+							<p:column headerText="Nombre">
+								<h:outputText value="#{membresia.miembroDTO.miembroNombre}" />
+							</p:column>
+							<p:column headerText="Apellido">
+								<h:outputText value="#{membresia.miembroDTO.miembroApellido}" />
+							</p:column>
+							<p:column headerText="Descuento">
+								<h:outputText value="#{membresia.membresiaPorcentajeDescuento}">
+									<f:convertNumber type="percent" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Nivel" >
+								<h:outputText value="#{membresia.membresiaNivel}" />
+							</p:column>
+							<p:column headerText="Puntos" >
+								<h:outputText value="#{membresia.membresiaPuntos}" />
+							</p:column>
+							
+<!-- 							<p:column headerText="Consumo" style="text-align: right;"> -->
+<!-- 								<h:outputText -->
+<!-- 									value="#{membresia.consumoDTO.consumoTotalIngreso}"> -->
+<!-- 									<f:convertNumber currencySymbol="$" type="currency" /> -->
+<!-- 								</h:outputText> -->
+<!-- 							</p:column> -->
+						</p:treeTable>
+					</h:form>
+					
+					<p:dialog id="dialogTree" appendTo="@(body)" draggable="true"
+						hideEffect="fade" closable="true"
+						visible="#{membresiaView.showDialogTree}" showEffect="fade"
+						resizable="false" modal="true" width="70%" height="30%">
+						<h:form id="frmTree" style="font-size:small; font-family:Arial;">
+							<p:tree value="#{membresiaView.tempMembresiasTree}"
+								var="membresia" orientation="horizontal">
+								<p:treeNode>
+									<h:panelGrid columns="3">
+										<h:outputText value="#{membresia.miembroDTO.miembroNombre}" />
+							            &#160;
+							            <h:outputText
+											value="#{membresia.miembroDTO.miembroApellido}" />
+									</h:panelGrid>
+									<p:outputPanel
+										rendered="#{membresia.membresiaNivel == 0 ? true : false}">
+										<h:outputText value="Descuento: " />
+										<h:outputText value="#{membresia.membresiaPorcentajeDescuento}">
+											<f:convertNumber type="percent" />
+										</h:outputText>
+									</p:outputPanel>
+									<p:outputPanel
+										rendered="#{membresia.membresiaNivel > 0 ? true : false}">
+										<h:outputText value="Niverl #{membresia.membresiaNivel}: " />
+										<h:outputText
+											value="#{membresia.membresiaNivel == 1 ? 0.15 :
+							            					   membresia.membresiaNivel == 2 ? 0.05 :
+							            					   membresia.membresiaNivel == 3 ? 0.03 : null}">
+											<f:convertNumber type="percent" />
+										</h:outputText>
+									</p:outputPanel>
+								</p:treeNode>
+							</p:tree>
+						</h:form>
+					</p:dialog>
+					
+					<p:dialog id="dialogNuevoMiembro" appendTo="@(body)"
+						draggable="true" hideEffect="fade" closable="true"
+						visible="#{miembroView.showDialogNuevoMiembro}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<h:form id="frmNuevoMiembro"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg" />
+							<p:panel>
+								<h:panelGrid columns="2">
+									<p:outputLabel value=" Referido? " />
+									<p:selectBooleanCheckbox value="#{miembroView.referido}"
+										style="text-align: right;">
+										<p:ajax update=":dialogReferido :dialogNuevoMiembro"
+											listener="#{miembroView.action_showDialog_referido()}" />
+									</p:selectBooleanCheckbox>
+
+									<p:outputLabel for="msgMiembroNombreReferido"
+										value=" Miembro Fabs:" rendered="#{miembroView.referido}" />
+									<p:inputText id="msgMiembroNombreReferido"
+										binding="#{miembroView.txtMiembroNombreReferido}"
+										immediate="true" rendered="#{miembroView.referido}"
+										disabled="true" />
+
+									<p:outputLabel for="msgMiembroNombre" value=" Nombre " />
+									<p:inputText id="msgMiembroNombre"
+										binding="#{miembroView.txtMiembroNombre}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroApellido" value=" Apellido:" />
+									<p:inputText id="msgMiembroApellido"
+										binding="#{miembroView.txtMiembroApellido}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroIdentificacion"
+										value=" Cédula:" />
+									<p:inputText id="msgMiembroNumeroIdentificacion"
+										binding="#{miembroView.txtMiembroNumeroIdentificacion}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroCelular"
+										value=" Numero celular:" />
+									<p:inputText id="msgMiembroNumeroCelular"
+										binding="#{miembroView.txtMiembroNumeroCelular}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroNumeroTelefono"
+										value=" Numero telefono fijo:" />
+									<p:inputText id="msgMiembroNumeroTelefono"
+										binding="#{miembroView.txtMiembroNumeroTelefono}" />
+
+									<p:outputLabel for="msgMiembroDireccion" value=" Direccion:" />
+									<p:inputText id="msgMiembroDireccion"
+										binding="#{miembroView.txtMiembroDireccion}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroBarrio" value=" Barrio:" />
+									<p:inputText id="msgMiembroBarrio"
+										binding="#{miembroView.txtMiembroBarrio}" immediate="true"
+										required="true" />
+
+									<p:outputLabel for="msgMiembroCorreoElctronico"
+										value=" Correo elctronico:" />
+									<p:inputText id="msgMiembroCorreoElctronico"
+										binding="#{miembroView.txtMiembroCorreoElctronico}"
+										immediate="true" required="true" />
+
+									<p:outputLabel for="msgMiembroFechaNacimiento"
+										value=" Fecha de nacimiento:" />
+									<p:calendar id="msgMiembroFechaNacimiento" showOn="button"
+										navigator="true" locale="en" immediate="true"
+										binding="#{miembroView.txtMiembroFechaNacimiento}"
+										required="true" />
+								</h:panelGrid>
+							</p:panel>
+							<br />
+							<p:outputPanel styleClass="right">
+								<p:commandButton value="Guardar" icon="fa fa-save"
+									action="#{miembroView.action_create()}"
+									update=":frm :dialogNuevoMiembro" />
+							</p:outputPanel>
+						</h:form>
+					</p:dialog>
+	
+					<p:dialog id="dialogReferido" appendTo="@(body)" draggable="true"
+						hideEffect="fade" closable="true"
+						visible="#{miembroView.showDialogReferido}" showEffect="fade"
+						resizable="false" modal="true" width="500">
+						<h:form id="frmDialogReferido" 
+							style="font-size:small; font-family:Arial;">
+							<p:dataTable var="miembro" value="#{miembroView.dataReferido}"
+								selectionMode="single" rowKey="#{miembro.miembroId}"
+								selection="#{miembroView.selectedMiembroReferido}">
+								<f:facet name="header">
+									<h:panelGrid columns="1"
+										styleClass="logoDataTable datatable-header-tittle">
+										<i class="fa fa-cogs" />
+										<p:outputLabel value="Miembros" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" styleClass="logoDataTable">
+										<h:panelGrid columns="2">
+											<p:outputPanel style="text-align: left;">
+												<p:commandLink
+													disabled="#{miembroView.pagerReferido.fromCounter == miembroView.pagerReferido.maxResultsTop}"
+													action="#{miembroView.pagerReferido.action_go_fast_backward()}"
+													update=":dialogReferido">
+													<i class="fa fa-fast-backward" />
+												</p:commandLink>
+											&#160;
+												<p:commandLink
+													disabled="#{miembroView.pagerReferido.fromCounter == miembroView.pagerReferido.maxResultsTop}"
+													action="#{miembroView.pagerReferido.action_go_backward()}"
+													update=":dialogReferido">
+													<i class="fa fa-chevron-left" />
+												</p:commandLink>
+											&#160;
+											<p:commandLink
+													disabled="#{miembroView.pagerReferido.toCounter >= miembroView.pagerReferido.numberOfRecords}"
+													action="#{miembroView.pagerReferido.action_go_forward()}"
+													update=":dialogReferido">
+													<i class="fa fa-chevron-right" />
+												</p:commandLink>
+											&#160;
+											<p:commandLink
+													disabled="#{miembroView.pagerReferido.toCounter >= miembroView.pagerReferido.numberOfRecords}"
+													action="#{miembroView.pagerReferido.action_go_fast_forward()}"
+													update=":dialogReferido">
+													<i class="fa fa-fast-forward" />
+												</p:commandLink>
+											</p:outputPanel>
+											<p:outputPanel style="text-align: right;">
+												<p:commandLink
+													action="#{miembroView.pagerReferido.action_reload()}"
+													update=":dialogReferido">
+													<i class="fa fa-refresh" />
+												</p:commandLink>
+											&#160;	
+											<p:inputText styleClass="empty" id="iconified"
+													placeholder="&#xF002;"
+													value="#{miembroView.pagerReferido.keyWord}"
+													onchange="document.getElementById('searchButton').click();" />
+												<p:commandButton id="searchButton"
+													style="padding-top:-15px; display: none;"
+													action="#{miembroView.pagerReferido.action_search()}"
+													update=":dialogReferido" />
+												<p:commandLink
+													action="#{miembroView.pagerReferido.action_search()}"
+													update=":dialogReferido">
+													<i class="fa fa-arrow-right" />
+												</p:commandLink>
+											</p:outputPanel>
+										</h:panelGrid>
+									</h:panelGrid>
+								</f:facet>
+								<p:ajax event="rowSelect"
+									listener="#{miembroView.action_select_miembro_referido}"
+									update=":dialogNuevoMiembro :dialogReferido :dialogNoCupo" />
+								<p:column headerText="Nombre">
+									<h:outputText value="#{miembro.miembroNombre}" />
+								</p:column>
+								<p:column headerText="Apellido">
+									<h:outputText value="#{miembro.miembroApellido}" />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</p:dialog>
+					
+					<p:dialog id="dialogNoCupo" appendTo="@(body)" hideEffect="fade"
+						closable="true" visible="#{miembroView.showDialogNoCupo}"
+						showEffect="fade" resizable="false" modal="true" width="500">
+						<h:form id="frmDialogNoCupo"
+							style="font-size:small; font-family:Arial;">
+							<h:panelGrid columns="2">
+								<p:messages id="msgNoCupo" />
+							</h:panelGrid>
+						</h:form>
+					</p:dialog>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

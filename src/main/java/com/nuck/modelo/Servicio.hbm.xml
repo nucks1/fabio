@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-jun-2017 1:38:20 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.nuck.modelo.Servicio" table="servicio" schema="public" optimistic-lock="version">
+        <id name="servicioId" type="java.lang.Integer">
+            <column name="servicio_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="claseTipo" class="com.nuck.modelo.ClaseTipo" fetch="select">
+            <column name="servicio_clase_tipo_id" />
+        </many-to-one>
+        <property name="servicioBeneficios" type="java.lang.String">
+            <column name="servicio_beneficios" length="300" />
+        </property>
+        <property name="servicioImagen" type="java.lang.String">
+            <column name="servicio_imagen" length="20" />
+        </property>
+        <property name="servicioFechaCreacion" type="java.util.Date">
+            <column name="servicio_fecha_creacion" length="29" />
+        </property>
+        <property name="servicionFechaModificacion" type="java.util.Date">
+            <column name="servicion_fecha_modificacion" length="29" />
+        </property>
+        <set name="colaboradorServicios" table="colaborador_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="servicio_id" not-null="true" />
+            </key>
+            <one-to-many class="com.nuck.modelo.ColaboradorServicio" />
+        </set>
+        <set name="salidas" table="salida" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="salida_servico_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Salida" />
+        </set>
+        <set name="entradas" table="entrada" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="entrada_servico_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Entrada" />
+        </set>
+        <set name="productos" table="servicio_producto" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="servicio_producto_servicio_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.nuck.modelo.Producto">
+                <column name="servicio_producto_producto_id" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="ingresos" table="ingreso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ingreso_servicio_id" />
+            </key>
+            <one-to-many class="com.nuck.modelo.Ingreso" />
+        </set>
+    </class>
+</hibernate-mapping>

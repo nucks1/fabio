@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.password">lF1kCJnAGJsHw5ZzRFjOZPYBQ_U7Y9s_</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://pellefant.db.elephantsql.com:5432/bqnbpowz</property>
+        <property name="hibernate.connection.username">bqnbpowz</property>
+        <mapping resource="com/nuck/modelo/Miembro.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Producto.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Puntos.hbm.xml" />
+        <mapping resource="com/nuck/modelo/ClaseTipo.hbm.xml" />
+        <mapping resource="com/nuck/modelo/ColaboradorServicio.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Entrada.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Membresia.hbm.xml" />
+        <mapping resource="com/nuck/modelo/PgStatStatements.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Tipo.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Colaborador.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Consumo.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Cliente.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Ingreso.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Servicio.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Usuario.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Salida.hbm.xml" />
+        <mapping resource="com/nuck/modelo/Egreso.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

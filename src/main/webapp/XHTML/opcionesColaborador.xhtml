@@ -1,0 +1,286 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript">
+		$('#iconified').on('keyup', function() {
+			var input = $(this);
+			if (input.val().length === 0) {
+				input.addClass('empty');
+			} else {
+				input.removeClass('empty');
+			}
+		});
+	</script>
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<ui:include src="/XHTML/opcionesMenu.xhtml" />
+				<br />
+				<p:outputPanel styleClass="nuckPanel"
+					style="padding-left: 20px; padding-right: 20px;">
+					<h:form id="frm2" rendered="#{message.adminUser()}">
+						<p:dataTable id="tabla" value="#{colaboradorView.data}"
+							var="colaborador" editable="true">
+							<f:facet name="header">
+								<h:panelGrid columns="1" styleClass="logoDataTable">
+									<p:outputPanel styleClass="datatable-menu-item">
+										<p:commandButton action="#{colaboradorView.action_new()}"
+											update=":dialogColaborador" value="Nuevo" />
+									</p:outputPanel>
+									<h:panelGrid columns="2">
+										<p:outputPanel style="text-align: left;">
+											<p:commandLink
+												disabled="#{colaboradorView.pager.fromCounter == colaboradorView.pager.maxResultsTop}"
+												action="#{colaboradorView.pager.action_go_fast_backward()}"
+												update=":frm2">
+												<i class="fa fa-fast-backward" />
+											</p:commandLink>
+											&#160;
+												<p:commandLink
+												disabled="#{colaboradorView.pager.fromCounter == colaboradorView.pager.maxResultsTop}"
+												action="#{colaboradorView.pager.action_go_backward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-left" />
+											</p:commandLink>
+											&#160;
+											<p:commandLink
+												disabled="#{colaboradorView.pager.toCounter >= colaboradorView.pager.numberOfRecords}"
+												action="#{colaboradorView.pager.action_go_forward()}"
+												update=":frm2">
+												<i class="fa fa-chevron-right" />
+											</p:commandLink>
+											&#160;
+											<p:commandLink
+												disabled="#{colaboradorView.pager.toCounter >= colaboradorView.pager.numberOfRecords}"
+												action="#{colaboradorView.pager.action_go_fast_forward()}"
+												update=":frm2">
+												<i class="fa fa-fast-forward" />
+											</p:commandLink>
+										</p:outputPanel>
+										<p:outputPanel style="text-align: right;">
+											<p:commandLink
+												action="#{colaboradorView.pager.action_reload()}"
+												update=":frm2">
+												<i class="fa fa-refresh" />
+											</p:commandLink>
+											&#160;
+											&#160;	
+											<p:inputText styleClass="empty" id="iconified"
+												placeholder="&#xF002;"
+												value="#{colaboradorView.pager.keyWord}"
+												onchange="document.getElementById('searchButton').click();" />
+											<p:commandButton id="searchButton"
+												style="padding-top:-15px; display: none;"
+												action="#{colaboradorView.pager.action_search()}"
+												update=":frm2" />
+											<p:commandLink
+												action="#{colaboradorView.pager.action_search()}"
+												update=":frm2">
+												<i class="fa fa-arrow-right" />
+											</p:commandLink>
+										</p:outputPanel>
+									</h:panelGrid>
+								</h:panelGrid>
+							</f:facet>
+							<p:ajax event="rowEdit" update=":frm2"
+								listener="#{colaboradorView.rowEventListener}" />
+							<p:column headerText="Cédula">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{colaborador.colaboradorNumeroIdentificacion}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText
+											value="#{colaborador.colaboradorNumeroIdentificacion}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Nombre">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorNombre}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorNombre}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Apellido">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorApellido}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorApellido}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Barrio">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorBarrio}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorBarrio}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Correo Electrónico">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{colaborador.colaboradorCorreoElctronico}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText
+											value="#{colaborador.colaboradorCorreoElctronico}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Dirección">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorDireccion}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorDireccion}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Número Celular">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorNumeroCelular}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorNumeroCelular}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Teléfono Fijo">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{colaborador.colaboradorNumeroTelefono}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{colaborador.colaboradorNumeroTelefono}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Fecha de Nacimiento">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{colaborador.colaboradorFechaNacimiento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</f:facet>
+									<f:facet name="input">
+										<p:calendar value="#{colaborador.colaboradorFechaNacimiento}"
+											showOn="button" pattern="dd/MM/yyyy" navigator="true">
+											<f:convertDateTime pattern="dd/MM/yyyy"
+												timeZone="#{colaboradorView.timeZone}" />
+										</p:calendar>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<p:dialog id="dialogColaborador" appendTo="@(body)"
+						draggable="true" closable="false"
+						visible="#{colaboradorView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<f:facet name="header">
+							<p:outputPanel
+								style="padding-left: 95%; font-size:small; font-family:Arial;">
+								<p:commandButton icon="fa fa-close" immediate="true"
+									action="#{colaboradorView.action_closeDialog()}"
+									update=":frm2 :dialogColaborador" />
+							</p:outputPanel>
+						</f:facet>
+						<h:form id="formDialog"
+							style="font-size:small; font-family:Arial;">
+							<p:messages id="msg" />
+							<p:panel>
+								<h:panelGrid columns="2" id="panelGrid">
+
+									<h:outputText for="txtColaboradorNombre" value=" Nombre" />
+									<p:inputText id="txtColaboradorNombre" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorNombre}" />
+
+									<p:outputLabel for="txtColaboradorApellido" value=" Apellido" />
+									<p:inputText id="txtColaboradorApellido" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorApellido}" />
+
+									<p:outputLabel for="txtColaboradorNumeroIdentificacion"
+										value=" Cédula" />
+									<p:inputText id="txtColaboradorNumeroIdentificacion"
+										rendered="true" immediate="true"
+										binding="#{colaboradorView.txtColaboradorNumeroIdentificacion}" />
+
+									<p:outputLabel for="txtColaboradorDireccion" value=" Direccion" />
+									<p:inputText id="txtColaboradorDireccion" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorDireccion}" />
+
+									<p:outputLabel for="txtColaboradorBarrio" value=" Barrio" />
+									<p:inputText id="txtColaboradorBarrio" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorBarrio}" />
+
+									<p:outputLabel for="txtColaboradorCorreoElctronico"
+										value=" Correo Elctronico" />
+									<p:inputText id="txtColaboradorCorreoElctronico"
+										rendered="true" immediate="true"
+										binding="#{colaboradorView.txtColaboradorCorreoElctronico}" />
+
+									<p:outputLabel for="txtColaboradorNumeroCelular"
+										value=" Numero Celular" />
+									<p:inputText id="txtColaboradorNumeroCelular" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorNumeroCelular}" />
+
+									<p:outputLabel for="txtColaboradorNumeroTelefono"
+										value=" Numero Telefono" />
+									<p:inputText id="txtColaboradorNumeroTelefono" rendered="true"
+										immediate="true"
+										binding="#{colaboradorView.txtColaboradorNumeroTelefono}" />
+
+									<p:outputLabel for="cldrColaboradorFechaNacimiento"
+										value=" Fecha de Nacimiento" />
+									<p:calendar showOn="button" navigator="true" locale="en"
+										id="cldrColaboradorFechaNacimiento"
+										binding="#{colaboradorView.txtColaboradorFechaNacimiento}"
+										rendered="true" immediate="true">
+										<p:ajax event="dateSelect"
+											listener="#{colaboradorView.listener_txtColaboradorFechaNacimiento}" />
+									</p:calendar>
+								</h:panelGrid>
+							</p:panel>
+							<br />
+							<p:outputPanel styleClass="right">
+								<p:commandButton value="Guardar" icon="fa fa-save"
+									action="#{colaboradorView.action_save()}"
+									update=":dialogColaborador :frm2" />
+							</p:outputPanel>
+
+						</h:form>
+					</p:dialog>
+				</p:outputPanel>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+
+				<!-- Expired session -->
+				<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+					timeout="#{session.maxInactiveInterval * 1000}" />
+				<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+					header="Expired session" draggable="false" closable="false">
+					<h:outputText value="The session is finished" />
+					<input id="confirmBackToLogin" type="button" value="Sign in"
+						onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.xhtml';" />
+				</p:dialog>
+
+				<p:outputPanel id="membresia-escalafon-panel" styleClass="nuckPanel" style="padding: 20px;">
+				
+					<h:form id="frm3" style="font-size:small; font-family:Arial;">
+						<p:tabMenu activeIndex="#{param.i}">
+							<p:menuitem value="Historial"
+								action="/XHTML/membresiaRegistro.xhtml?i=0"
+								icon="fa fa-th-list">
+								<f:param name="i" value="0" />
+							</p:menuitem>
+							<p:menuitem value="Nivel de Descuento"
+								action="/XHTML/membresiaEscalafon.xhtml?i=1"
+								icon="fa fa-sitemap">
+								<f:param name="i" value="1" />
+							</p:menuitem>
+						</p:tabMenu>
+					</h:form>
+				
+					<br/>
+					Hisstorial
+				</p:outputPanel>
+
+				
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

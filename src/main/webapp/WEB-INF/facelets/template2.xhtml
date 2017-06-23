@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>.::LogoCode::.</title>
+	<link REL="SHORTCUT ICON"
+		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/logo.png" />
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/style.css" />
+	<!-- 	<link rel="stylesheet" type="text/css" -->
+	<!-- 		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/theme_soft.css" /> -->
+	<!-- 	<link rel="stylesheet" type="text/css" -->
+	<!-- 		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/components.css" /> -->
+	<!-- 	<link rel="stylesheet" type="text/css" -->
+	<!-- 		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/layout-orange.css" /> -->
+	<h:outputStylesheet name="primefaces/fa/font-awesome.css" />
+</h:head>
+
+<h:body>
+	<div class="mainContent">
+		<div class="topBar">
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/facelets/headerLogin.xhtml" />
+			</ui:insert>
+		</div>
+		<div class="menuBar">
+			<ui:insert name="menu">
+				<ui:include src="/WEB-INF/facelets/menu.xhtml" />
+			</ui:insert>
+		</div>
+		
+		<div class="content">
+			<ui:insert name="body">
+				<ui:include src="/XHTML/empty.xhtml" />
+			</ui:insert>
+		</div>
+	</div>
+</h:body>
+</html>
