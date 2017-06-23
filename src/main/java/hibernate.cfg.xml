@@ -6,9 +6,9 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.password">lF1kCJnAGJsHw5ZzRFjOZPYBQ_U7Y9s_</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://pellefant.db.elephantsql.com:5432/bqnbpowz</property>
-        <property name="hibernate.connection.username">bqnbpowz</property>
+        <property name="hibernate.connection.password">soulhack</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://postgresql:5432/sampledb</property>
+        <property name="hibernate.connection.username">root</property>
         <mapping resource="com/nuck/modelo/Miembro.hbm.xml" />
         <mapping resource="com/nuck/modelo/Producto.hbm.xml" />
         <mapping resource="com/nuck/modelo/Puntos.hbm.xml" />
